@@ -71,7 +71,6 @@ class Category
         if ($this->hasChild($id)) {
             return null;
         }
-
         return $this->createTree($id);
     }
 
