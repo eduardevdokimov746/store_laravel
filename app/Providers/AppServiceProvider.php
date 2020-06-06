@@ -15,6 +15,10 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->instance('App\Interfaces\IViewedProductProvider', new \App\Extensions\CookieViewedProvider);
         $this->app->instance('App\Interfaces\IComparisonProvider', new \App\Extensions\CookieComparisonProvider);
+
+        $this->app->bind('App\Services\Wishlist', function () {
+            return new \App\Services\Wishlist(new \App\Extensions\WishlistProvider, \Auth::id());
+        });
     }
 
     /**

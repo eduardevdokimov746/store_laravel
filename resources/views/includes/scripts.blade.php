@@ -164,6 +164,7 @@
 </script>
 <script src="{{ asset('js/jquery.menu-aim.js') }}"> </script>
 <!--<script type="text/javascript" src='{{-- asset('js/html.js') --}}'></script>-->
+<script src="{{ asset('js/html.js') }}"></script>
 <script src="{{ asset('js/main.js') }}"></script>
 <script src="{{ asset('js/myjs.js') }}"></script>
 <script src="{{ asset('js/socket.js') }}"></script>

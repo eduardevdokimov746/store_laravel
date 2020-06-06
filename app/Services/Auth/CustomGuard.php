@@ -81,7 +81,10 @@ class CustomGuard implements StatefulGuard
      */
     public function id()
     {
-        return $this->user->id;
+        if ($this->check()) {
+            return $this->user->id;
+        }
+        return null;
     }
 
     /**

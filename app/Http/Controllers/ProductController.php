@@ -9,7 +9,6 @@ use App\Models\Product;
 use App\Repositories\CommentRepository;
 use App\Repositories\ProductRepository;
 use Illuminate\Http\Request;
-use App\Services\Wishlist;
 use App\Services\Comparison;
 use App\Extensions\ProductData;
 use App\Services\Breadcrumbs;
@@ -63,7 +62,7 @@ class ProductController extends BaseController
 
         $product = ProductData::changeForShow($product);
 
-        $issetInWishlist = Wishlist::has($product->id);
+        $issetInWishlist = \Wishlist::hasProduct($product->id);
         $issetComparison = \Comparison::has($product->id);
 
         \ViewedProduct::add($product->id);

@@ -64,6 +64,14 @@ Route::middleware('auth')->group(function () {
 Route::get('search/handle', 'SearchController@handle');
 Route::get('search/{searchText}', 'SearchController@index');
 
+Route::middleware('auth')->group(function () {
+    Route::resource('wishlists', 'WishlistController')->names('wishlists');
+    Route::post('wishlists/addProduct', 'WishlistController@addProduct')->name('wishlists.addProduct');
+    Route::delete('wishlists', 'WishlistController@deleteProducts')->name('wishlists.deleteProduct');
+    Route::put('wishlists/default/{id}', 'WishlistController@default');
+    Route::put('wishlists/name/{id}', 'WishlistController@name');
+});
+
 Route::get('mail', function () {
    return new \App\Mail\ConfirmMail;
 });

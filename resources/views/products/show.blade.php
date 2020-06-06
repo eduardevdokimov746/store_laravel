@@ -54,11 +54,11 @@
                                                                                             aria-hidden="true"></i>Купить
                         </button>
                         @if($issetInWishlist)
-                            <button class="w3ls-cart w3ls-cart-like" id='add-wish-list'>
+                            <button class="w3ls-cart w3ls-cart-like" id='add-wish-list' data-type="added">
                                 <i class="fas fa-heart"></i>&nbsp;В списке желаний
                             </button>
                         @else
-                            <button class="w3ls-cart w3ls-cart-like" id='add-wish-list'>
+                            <button class="w3ls-cart w3ls-cart-like" id='add-wish-list' data-type="">
                                 <i class="fa fa-heart-o" aria-hidden="true"></i>&nbsp;В список желаний
                             </button>
                         @endif

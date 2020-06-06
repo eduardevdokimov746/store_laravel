@@ -233,6 +233,7 @@ return [
         'Cart' => App\Facades\CartFacade::class,
         'ViewedProduct' => App\Facades\ViewedProductFacade::class,
         'Comparison' => App\Facades\ComparisonFacade::class,
-        'Category' => App\Facades\CategoryFacade::class
+        'Category' => App\Facades\CategoryFacade::class,
+        'Wishlist' => App\Facades\WishlistFacade::class
     ],
 ];

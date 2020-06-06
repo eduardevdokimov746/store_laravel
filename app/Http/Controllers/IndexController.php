@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Comment;
 use App\Models\Email;
 use App\Models\User;
+use App\Models\WishlistProduct;
 use App\Repositories\CategoryRepository;
 use App\Repositories\ProductRepository;
 use Carbon\Carbon;
@@ -15,6 +16,7 @@ class IndexController extends BaseController
 {
     public function __invoke(CategoryRepository $categoryRepository)
     {
+
 
        // dd(session('authenticate-user'));
        // \Category::flush();

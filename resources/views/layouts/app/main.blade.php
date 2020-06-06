@@ -119,9 +119,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <button class="w3view-cart" type="submit" name="submit" value="">
                         <i class="far fa-heart" style="font-size: 25px; color: white;"></i>
                     </button>
-
-                    <span>gh</span>
-
+                    @if(auth() && Wishlist::getCountProduct() > 0)
+                        <span>{{ Wishlist::getCountProduct() }}</span>
+                    @endif
                 </div>
                 <div class="cart" title='Корзина'>
                     <button class="w3view-cart" data-toggle="modal" data-target=".bs-example-modal-lg" type="submit"

@@ -58,7 +58,7 @@ class ProductData
         return $product;
     }
 
-    protected static function title($title)
+    public static function title($title)
     {
         if (strlen($title) > 30) {
             $result = mb_substr($title, 0, 30) . '...';
@@ -69,7 +69,7 @@ class ProductData
         return $result;
     }
 
-    protected static function price($price)
+    public static function price($price)
     {
         if ($price > 0) {
             $price *= \Currency::getCurrent()->value;
@@ -79,7 +79,7 @@ class ProductData
         return 0;
     }
 
-    protected static function sticker($product)
+    public static function sticker(Product $product)
     {
         if($product->old_price > 0){
             $result = "<div class='new-tag'><h6>{$product->discount}%</h6></div>";
@@ -92,6 +92,4 @@ class ProductData
         }
         return $result;
     }
-
-
 }

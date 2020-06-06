@@ -42,6 +42,27 @@ class ProductRepository extends CoreRepository
         return $result;
     }
 
+    public function getWhereIds($product_ids)
+    {
+        $select = [
+            'id',
+            'title',
+            'slug',
+            'price',
+            'old_price',
+            'img',
+            'hit',
+            'new'
+        ];
+
+        $result = $this->startConditions()
+            ->select($select)
+            ->whereIn('id', $product_ids)
+            ->get();
+
+        return $result;
+    }
+
     public function getForCart($id)
     {
         $select = [
