@@ -96,7 +96,7 @@
 
 
             <!-- recommendations -->
-            <?php if(!empty($viewedProducts)): ?>
+            @if(ViewedProduct::isNotEmpty())
             <div class="recommend">
                 <h3 class="w3ls-title">Просмотренные ранее</h3>
                 <script>
@@ -115,7 +115,7 @@
                     });
                 </script>
                 <div id="owl-demo5" class="owl-carousel">
-                    @foreach (WievedProduct::get() as $viewedProduct)
+                    @foreach (ViewedProduct::get() as $viewedProduct)
                     <div class="item">
                         <div class="glry-w3agile-grids agileits" style="height: 250px;">
                             {{ $viewedProduct['sticker'] }}
@@ -124,10 +124,10 @@
                             <div class="view-caption agileits-w3layouts">
                                 <h4>
                                     <a title='{{ $viewedProduct->title }}'
-                                       href="{{ route('products.show', $viewedProduct->slug) }}"></a>
+                                       href="{{ route('products.show', $viewedProduct->slug) }}">{{ $viewedProduct->small_title }}</a>
                                 </h4>
 
-                                <h5>{!! $symbolCurrency !!}&nbsp;$viewedProduct['price'] ?></h5>
+                                <h5>{!! $symbolCurrency !!}&nbsp;{{ $viewedProduct->price }}</h5>
                                 <button class="w3ls-cart addToCart" data-id='{{ $viewedProduct->id }}'><i
                                         class="fa fa-cart-plus" aria-hidden="true"></i>Купить
                                 </button>
@@ -138,7 +138,7 @@
                     @endforeach
                 </div>
             </div>
-        <?php endif; ?>
+        @endif
         <!-- //recommendations -->
 
         </div>

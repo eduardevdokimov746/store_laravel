@@ -9,7 +9,7 @@ use App\Models\Product;
 use App\Extensions\ProductData;
 use App\Services\Sort;
 
-class SearchController extends Controller
+class SearchController extends BaseController
 {
     public function handle(Request $request)
     {

@@ -32,6 +32,11 @@ class Category
         return $categories;
     }
 
+    public function isNotebook($category_id)
+    {
+        return $this->getParentId($category_id) == 6;
+    }
+
     public function get($id)
     {
         if ($this->has($id)) {

@@ -55,19 +55,19 @@
         <div class="container">
             <div class="add-products-row">
                 <div class="w3ls-add-grids">
-                    <a href="category/smartphones?sort=pop">
+                    <a href="{{ url('categories/smartphones/products?sort=pop') }}">
                         <h4>ТОП-10 ТЕНДЕНЦИЙ ДЛЯ ВАС <span>20%</span> СКИДКА</h4>
                         <h6>Купить <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></h6>
                     </a>
                 </div>
                 <div class="w3ls-add-grids w3ls-add-grids-mdl">
-                    <a href="/category/office_chair">
+                    <a href="{{ route('categories.products', 'office_chair') }}">
                         <h4>НОВЫЕ КРЕСЛА С <span>40%</span> СКИДКОЙ</h4>
                         <h6>Купить <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></h6>
                     </a>
                 </div>
                 <div class="w3ls-add-grids w3ls-add-grids-mdl1">
-                    <a href="/category/apple">
+                    <a href="{{ route('categories.products', 'apple') }}">
                         <h4>ПОСЛЕДНИЕ ПОСТУПЛЕНИЯ <span> ТОРОПИСЬ !</span></h4>
                         <h6>Купить <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></h6>
                     </a>
@@ -83,25 +83,25 @@
             <h3 class="w3ls-title">Основные категории</h3>
             <div class="deals-row">
                 <div class="col-md-3 focus-grid">
-                    <a href="category/link" class="wthree-btn">
+                    <a href="{{ route('categories.show','link') }}" class="wthree-btn">
                         <div class="focus-image"><i class="fa fa-mobile"></i></div>
                         <h4 class="clrchg">Связь</h4>
                     </a>
                 </div>
                 <div class="col-md-3 focus-grid">
-                    <a href="category/notebooks_&_compucters" class="wthree-btn wthree1">
+                    <a href="{{ route('categories.show','notebooks_&_compucters') }}" class="wthree-btn wthree1">
                         <div class="focus-image"><i class="fa fa-laptop"></i></div>
                         <h4 class="clrchg">Ноутбуки и компьютеры</h4>
                     </a>
                 </div>
                 <div class="col-md-3 focus-grid">
-                    <a href="category/household_products" class="wthree-btn wthree3">
+                    <a href="{{ route('categories.show','household_products') }}" class="wthree-btn wthree3">
                         <div class="focus-image"><i class="fa fa-home"></i></div>
                         <h4 class="clrchg">Товары для дома</h4>
                     </a>
                 </div>
                 <div class="col-md-3 focus-grid">
-                    <a href="category/white_goods" class="wthree-btn wthree5">
+                    <a href="{{ route('categories.show','white_goods') }}" class="wthree-btn wthree5">
                         <div class="focus-image"><i class="fas fa-blender" style="font-size: 40px;"></i></div>
                         <h4 class="clrchg">Бытовая техника</h4>
                     </a>

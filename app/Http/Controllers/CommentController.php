@@ -2,18 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Extensions\CommentData;
-use App\Models\Comment;
-use App\Models\LikeComment;
-use App\Models\Product;
-use App\Repositories\CommentRepository;
-use App\Repositories\ProductRepository;
 use Illuminate\Http\Request;
-use App\Services\Comparison;
-use App\Extensions\ProductData;
-use App\Services\Breadcrumbs;
+use App\Services\Comment;
 
-class ProductController extends BaseController
+class CommentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,7 +14,7 @@ class ProductController extends BaseController
      */
     public function index()
     {
-        //
+        
     }
 
     /**
@@ -52,30 +44,9 @@ class ProductController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($slug, ProductRepository $productRepository, CommentRepository $commentRepository)
+    public function show($id)
     {
-        $product = $productRepository->getForShow($slug);
-
-        if (is_null($product)) {
-            return abort(404);
-        }
-
-        $product = ProductData::changeForShow($product);
-
-        $issetInWishlist = \Wishlist::hasProduct($product->id);
-        $issetComparison = \Comparison::has($product->id);
-
-        \ViewedProduct::add($product->id);
-        
-        $breadcrumbs = new Breadcrumbs($product->category_id, $product->title);
-
-        $comments = $commentRepository->getForProductShow($product->id);
-
-        $comments = $comments->map(function ($item, $key) {
-            return CommentData::changeForShow($item);
-        });
-
-        return view('products.show', compact('product', 'comments', 'issetInWishlist', 'issetComparison', 'breadcrumbs'));
+        //
     }
 
     /**
@@ -110,5 +81,29 @@ class ProductController extends BaseController
     public function destroy($id)
     {
         //
+    }
+
+    public function like(Request $request, $comment_id)
+    {
+        $comment = new Comment(\Auth::id(), $comment_id);
+        $comment->like();
+
+        if ($request->wantsJson()) {
+            return response(json_encode(''), 200);
+        }
+
+        return response('', 200);
+    }
+
+    public function dislike(Request $request, $comment_id)
+    {
+        $comment = new Comment(\Auth::id(), $comment_id);
+        $comment->dislike();
+
+        if ($request->wantsJson()) {
+            return response(json_encode(''), 200);
+        }
+
+        return response('', 200);
     }
 }

@@ -14,6 +14,7 @@ class Filter
 
     public function __construct($request, $category_id)
     {
+
         $this->request = $request;
         $this->category_id = $category_id;
         $this->init();
@@ -21,13 +22,14 @@ class Filter
 
     protected function init()
     {
-        $this->category_id = $this->getCategoryId($this->category_id);
         $this->cache_name = $this->getCacheName();
         $this->setData();
     }
 
     protected function setData()
     {
+        $this->clearCache();
+
         $filter_data = \Cache::remember($this->cache_name, $this->cache_expired, function () {
             $cache['groups'] = $this->getGroupsDb();
             $cache['groups_values'] = $this->getGroupsValuesDb();
@@ -78,14 +80,14 @@ class Filter
 
     protected function getGroupsDb()
     {
-        $result = \DB::select('SELECT * FROM `filter_group` WHERE `category_id`=?', [$this->category_id]);
+        $result = \DB::select('SELECT * FROM `filter_group` WHERE `category_id`=?', [$this->getCategoryId($this->category_id)]);
 
         return !empty($result) ? $result : null;
     }
 
     protected function getGroupsValuesDb()
     {
-        $data = \DB::select("SELECT * FROM filter_value WHERE group_id IN (SELECT id FROM filter_group WHERE category_id=?)", [$this->category_id]);
+        $data = \DB::select("SELECT * FROM filter_value WHERE group_id IN (SELECT id FROM filter_group WHERE category_id=?)", [$this->getCategoryId($this->category_id)]);
 
         foreach ($data as $key => $value) {
             $result[$value->group_id][$value->id] = $value->value;
@@ -108,7 +110,11 @@ class Filter
 
             $product_ids_filtered = $this->getProductIdFromFilter($filters_id, $countGroup);
 
-            $result = $productRepository->getWhereCategoriesWithFilter($this->category_id, $sort, $product_ids_filtered);
+            $result = $productRepository->getWhereCategoriesWithFilter(
+                $this->category_id, 
+                $sort, 
+                $product_ids_filtered);
+            
         } else {
             $result = $productRepository->getWhereCategories($this->category_id, $sort);
         }
@@ -180,7 +186,7 @@ class Filter
 
     protected function isNotebook()
     {
-        return \Category::getParentId($this->category_id) === 6;
+        return \Category::isNotebook($this->category_id);
     }
 
     public function clearCache()

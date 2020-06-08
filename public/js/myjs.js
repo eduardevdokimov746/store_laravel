@@ -28,30 +28,28 @@ $(document).ready(function () {
             return;
 
         $.ajax({
-            url: host + '/comments/like',
-            data: 'id=' + id + '&checkPressDislike=' + checkPressDislike,
+            url: host + '/comments/like/' + id,
             type: 'post',
             dataType: 'json',
             success: function (data) {
                 console.log(data);
 
-                if (data.type == 'success') {
-                    item.addClass('press').removeClass('like').data('type', 'disable');
-                    comment.find('.c_like').html(Number(comment.find('.c_like').html()) + 1);
-                    comment.find('.fa-thumbs-down').removeClass('press').addClass('dislike').data('type', 'enable');
-                    comment.find('.c_dis').removeClass('press').addClass('counter-dislike');
-                    comment.find('.c_like').addClass('press');
+                item.addClass('press').removeClass('like').data('type', 'disable');
+                comment.find('.c_like').html(Number(comment.find('.c_like').html()) + 1);
+                comment.find('.fa-thumbs-down').removeClass('press').addClass('dislike').data('type', 'enable');
+                comment.find('.c_dis').removeClass('press').addClass('counter-dislike');
+                comment.find('.c_like').addClass('press');
 
-                    if (checkPressDislike == 'disable') {
-                        if (Number(comment.find('.c_dis').html()) > 1) {
-                            comment.find('.c_dis').html(Number(comment.find('.c_dis').html()) - 1);
-                        } else {
-                            comment.find('.c_dis').html('');
-                        }
+                if (checkPressDislike == 'disable') {
+                    if (Number(comment.find('.c_dis').html()) > 1) {
+                        comment.find('.c_dis').html(Number(comment.find('.c_dis').html()) - 1);
+                    } else {
+                        comment.find('.c_dis').html('');
                     }
                 }
             },
-            error: function () {
+            error: function (s) {
+                console.log(s);
                 alertDanger();
             }
         });
@@ -73,14 +71,13 @@ $(document).ready(function () {
             return;
 
         $.ajax({
-            url: host + '/comments/dislike',
-            data: 'id=' + id + '&checkPressLike=' + checkPressLike,
+            url: host + '/comments/dislike/' + id,
             type: 'post',
             dataType: 'json',
             success: function (data) {
                 console.log(data);
 
-                if (data.type == 'success') {
+                
                     item.addClass('press').removeClass('dislike').data('type', 'disable');
                     comment.find('.c_dis').html(Number(comment.find('.c_dis').html()) + 1);
 
@@ -93,7 +90,7 @@ $(document).ready(function () {
                         else
                             comment.find('.c_like').html('');
                     }
-                }
+                
             },
             error: function () {
                 alertDanger();

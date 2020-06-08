@@ -16,7 +16,7 @@ class IndexController extends BaseController
 {
     public function __invoke(CategoryRepository $categoryRepository)
     {
-
+        
 
        // dd(session('authenticate-user'));
        // \Category::flush();

@@ -22,7 +22,7 @@ class ViewedProduct
             $products = Product::whereRaw("id IN ({$this->provider->get()})")->get();
 
             $products = $products->map(function ($item, $key) {
-                return ProductData::change($item);
+                return ProductData::changeForList($item);
             });
 
             return $products;
@@ -60,5 +60,10 @@ class ViewedProduct
         }
 
         $this->provider->write($result);
+    }
+
+    public function isNotEmpty()
+    {
+        return !$this->provider->empty();
     }
 }

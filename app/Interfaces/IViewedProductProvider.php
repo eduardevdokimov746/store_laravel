@@ -33,4 +33,12 @@ interface IViewedProductProvider
      * @return void
      */
     public function remove();
+
+
+    /**
+     *Check is empty cookie bag
+     *
+     * @return bool
+     */
+    public function empty();
 }

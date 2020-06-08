@@ -34,7 +34,6 @@ Route::namespace('Auth')->group(function () {
 
     Route::get('confirm/mail/{code}', 'ConfirmEmailController@handler')->name('confirm.mail');
     Route::post('confirm/mail/send', 'ConfirmEmailController@sendDublicateMail');
-
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -55,23 +54,43 @@ Route::resource('categories', 'CategoryController');
 Route::get('categories/{slug}/products', 'CategoryController@products')->name('categories.products');
 
 Route::middleware('auth')->group(function () {
+
+    /* Profile routes */
     Route::get('profile', 'ProfileController@show')->name('profile.show');
     Route::post('profile/name-change', 'ProfileController@changeName');
     Route::get('profile/password-change', 'ProfileController@showFormChangePass')->name('change-password');
     Route::post('profile/password-change', 'ProfileController@changePassword');
-});
+    /* Profile routes */
 
-Route::get('search/handle', 'SearchController@handle');
-Route::get('search/{searchText}', 'SearchController@index');
 
-Route::middleware('auth')->group(function () {
+    /* Wishlist routes */
     Route::resource('wishlists', 'WishlistController')->names('wishlists');
     Route::post('wishlists/addProduct', 'WishlistController@addProduct')->name('wishlists.addProduct');
     Route::delete('wishlists', 'WishlistController@deleteProducts')->name('wishlists.deleteProduct');
     Route::put('wishlists/default/{id}', 'WishlistController@default');
     Route::put('wishlists/name/{id}', 'WishlistController@name');
+    /* Wishlist routes */
+
+    /* Comments routes */
+    Route::resource('comments', 'CommentController')->names('comments');
+    Route::post('comments/like/{comment_id}', 'CommentController@like')->name('comments.like');
+    Route::post('comments/dislike/{comment_id}', 'CommentController@dislike')->name('comments.dislike');
+    Route::resource('comments.responses', 'CommentResponseController')->names('comments.responses');
+
+    /* Comments routes */
 });
+
+Route::get('search/handle', 'SearchController@handle');
+Route::get('search/{searchText}', 'SearchController@index');
+
 
 Route::get('mail', function () {
    return new \App\Mail\ConfirmMail;
 });
+
+
+// ADMIN PANEL
+
+// Routes::domain('admin')->namespace('Admin')group(function () {
+//     Route::get('/', '')->name('admin.index');
+// });

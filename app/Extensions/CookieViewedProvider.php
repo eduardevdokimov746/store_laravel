@@ -29,6 +29,15 @@ class CookieViewedProvider implements IViewedProductProvider
         return request()->hasCookie($this->storageName);
     }
 
+    public function empty()
+    {
+        if (!request()->cookie($this->storageName)) {
+            return true;
+        }
+
+        return false;
+    }
+
     /**
      * Add id product in storage
      *

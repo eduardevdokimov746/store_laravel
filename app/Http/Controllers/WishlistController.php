@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Wishlist;
 use App\Models\Product;
 
-class WishlistController extends Controller
+class WishlistController extends BaseController
 {
     /**
      * Display a listing of the resource.

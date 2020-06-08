@@ -33,7 +33,7 @@ class CategoryController extends BaseController
         $sortTerm = Sort::getTerm($sort);
 
         $category_id = \Category::getId($slug);
-
+        
         $categoryTitle = \Category::get($category_id)['title'];
 
         $filter = new Filter(request(), $category_id);
