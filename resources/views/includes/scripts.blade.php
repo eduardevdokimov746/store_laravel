@@ -6,8 +6,8 @@
     var userName = '';
     var userEmail = '';
     @auth
-        userName = '{{ Auth::user()->login }}';
-        userEmail = '{{ Auth::user()->email }}';
+        userName = '{{ Auth::user()->name }}';
+        userEmail = '{{ Auth::user()->email->email }}';
     @endif
 
     var csrftoken = $('meta[name=_token]').attr('content');
@@ -47,7 +47,7 @@
 <script>
     $(document).ready(function() {
         // Dock the header to the top of the window when scrolled past the banner. This is the default behaviour.
-        var r = /comparison\/[0-9]+/;
+        var r = /comparison\/\S+/;
         if(!r.test(document.location.pathname))
             $('.header-two').scrollToFixed();
         // previous summary up the page.

@@ -11,7 +11,7 @@ interface IComparisonProvider
      *
      * @return void
      */
-    public function write($ids);
+    public function write($data);
 
     /**
      * Get comparison list

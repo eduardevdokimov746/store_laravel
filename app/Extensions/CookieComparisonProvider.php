@@ -6,13 +6,13 @@ use App\Interfaces\IComparisonProvider;
 
 class CookieComparisonProvider implements IComparisonProvider
 {
-    protected $storageName = 'comparison';
+    protected $storage_name = 'comparison';
     protected $expires = 10080;
 
 
-    public function write($ids)
+    public function write($data)
     {
-        $cookie = cookie($this->storageName, $ids, $this->expires, '/');
+        $cookie = cookie($this->storage_name, $data, $this->expires, '/');
         \Cookie::queue($cookie);
     }
 
@@ -23,7 +23,7 @@ class CookieComparisonProvider implements IComparisonProvider
      */
     public function get()
     {
-        return request()->cookie($this->storageName);
+        return request()->cookie($this->storage_name);
     }
 
     /**
@@ -33,7 +33,7 @@ class CookieComparisonProvider implements IComparisonProvider
      */
     public function remove()
     {
-        \Cookie::queue(\Cookie::forget($this->storageName));
+        \Cookie::queue(\Cookie::forget($this->storage_name));
     }
 
     /**
@@ -43,6 +43,6 @@ class CookieComparisonProvider implements IComparisonProvider
      */
     public function has()
     {
-        return request()->hasCookie($this->storageName);
+        return request()->hasCookie($this->storage_name);
     }
 }

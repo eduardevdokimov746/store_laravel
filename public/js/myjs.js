@@ -77,25 +77,24 @@ $(document).ready(function () {
             success: function (data) {
                 console.log(data);
 
-                
-                    item.addClass('press').removeClass('dislike').data('type', 'disable');
-                    comment.find('.c_dis').html(Number(comment.find('.c_dis').html()) + 1);
 
-                    comment.find('.fa-thumbs-up').removeClass('press').addClass('like').data('type', 'enable');
-                    comment.find('.c_dis').addClass('press');
-                    comment.find('.c_like').removeClass('press').addClass('counter-like');
-                    if (checkPressLike == 'disable') {
-                        if (Number(comment.find('.c_like').html()) > 1)
-                            comment.find('.c_like').html(Number(comment.find('.c_like').html()) - 1);
-                        else
-                            comment.find('.c_like').html('');
-                    }
-                
+                item.addClass('press').removeClass('dislike').data('type', 'disable');
+                comment.find('.c_dis').html(Number(comment.find('.c_dis').html()) + 1);
+
+                comment.find('.fa-thumbs-up').removeClass('press').addClass('like').data('type', 'enable');
+                comment.find('.c_dis').addClass('press');
+                comment.find('.c_like').removeClass('press').addClass('counter-like');
+                if (checkPressLike == 'disable') {
+                    if (Number(comment.find('.c_like').html()) > 1)
+                        comment.find('.c_like').html(Number(comment.find('.c_like').html()) - 1);
+                    else
+                        comment.find('.c_like').html('');
+                }
+
             },
             error: function () {
                 alertDanger();
             }
-
         });
     });
 
@@ -110,17 +109,16 @@ $(document).ready(function () {
         for (var key in fields) {
             request += key + '=' + fields[key] + '&';
         }
-        request += 'parent_id=' + parent_id;
 
         $.ajax({
-            url: host + '/comments/addResponse',
+            url: host + '/comments/' + parent_id + '/responses',
             type: 'post',
             data: request,
             dataType: 'json',
             success: function (data) {
                 console.log(data);
 
-                if (data.type == 'mail_exist') {
+                if (data == 'mail_exists') {
                     var html = "<span class='message-error-tooltip'>Пользователь с таким адресом эл. почты уже зарегистрирован, авторизируйтесь&nbsp;";
                     html += "<a href=" + host + "/login'>Войти</a></span>";
                     li.find('input[type=email]').closest('.form-group').append(html);
@@ -141,13 +139,15 @@ $(document).ready(function () {
                     }
                 }
             },
-            error: function () {
+            error: function (s) {
+                console.log(s);
                 alertDanger();
             }
         });
     });
 
     $('#btn-get-response').click(function () {
+
         var count = $('.list_comments #list-otzuv').attr('data-count');
 
         var alias = document.location.pathname.match(/product\/comments\/(\w+)/);
@@ -727,10 +727,9 @@ $(document).ready(function () {
     });
 
     $(document).scroll(function () {
-        var r = /comparison\/[0-9]+/;
+        var r = /comparison\/\S+/;
         if (r.test(document.location.pathname))
             toggleHeader();
-
     });
 
     $('#add-comparison-list').click(function () {
@@ -742,30 +741,28 @@ $(document).ready(function () {
         var id = $(this).closest('.container').data('id');
 
         $.ajax({
-            url: host + '/comparison/add',
+            url: host + '/comparison/' + id,
             type: 'post',
-            data: 'id=' + id,
             dataType: 'json',
             success: function (data) {
                 console.log(data);
 
-                if (data.type == 'max_lenght') {
+                if (data == 'max_lenght') {
                     alertNotice('Превышен лимит (5 товаров) для сравнения в одной категории!');
                     return;
                 }
 
-                if (data.type == 'success') {
-                    alertSuccess('Товар добавлен в список сравнений!');
-                    $('#add-comparison-list').html('<i class="fas fa-balance-scale"></i>&nbsp;Сравнивается').attr('data-type', 'press');
+                alertSuccess('Товар добавлен в список сравнений!');
+                $('#add-comparison-list').html('<i class="fas fa-balance-scale"></i>&nbsp;Сравнивается').attr('data-type', 'press');
 
-                    if ($('#comparison').find('span').length) {
-                        $('#comparison').find('span').html(Number($('#comparison').find('span').html()) + 1);
-                    } else {
-                        $('#comparison button').after('<span>1</span>');
-                    }
+                if ($('#comparison').find('span').length) {
+                    $('#comparison').find('span').html(Number($('#comparison').find('span').html()) + 1);
+                } else {
+                    $('#comparison button').after('<span>1</span>');
                 }
             },
-            error: function () {
+            error: function (s) {
+                console.log(s);
                 alertDanger();
             }
         });
@@ -777,9 +774,9 @@ $(document).ready(function () {
         var key = item.closest('.comparison-list').data('id');
 
         $.ajax({
-            url: host + '/comparison/delItem',
-            type: 'post',
-            data: 'product_id=' + product_id + '&key=' + key,
+            url: host + '/comparison/' + product_id,
+            type: 'DELETE',
+            data: 'category_id=' + key,
             dataType: 'json',
             success: function (data) {
                 console.log(data);
@@ -806,7 +803,8 @@ $(document).ready(function () {
                     $('.container .w3ls-title').after('<h3>У вас пока нет товаров для сравнения</h3>');
                 }
             },
-            error: function () {
+            error: function (s) {
+                console.log(s);
                 alertDanger();
             }
         });
@@ -928,7 +926,6 @@ $(document).ready(function () {
 
 
 function toggleHeader() {
-
     var scroll_status = $(document).scrollTop();
     s_top = $(window).scrollTop();
     yes = $(".table-sravneniy thead").offset().top;

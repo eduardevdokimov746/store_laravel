@@ -1,10 +1,3 @@
-<div class='header_block_comments {{ $comments->isEmpty() ? 'disactive' : '' }}'>
-    <h3 class="w3ls-title" style="display: inline-block; float: left;">Отзывы покупателей&nbsp;<p
-            style="display: inline;">{{ $product->comments_count }}</p></h3>
-    <div class='bth_comment' title='Добавить отзыв'>
-        <i class="far fa-edit"></i>
-    </div>
-</div>
 <div class='list_comments {{ $comments->isEmpty() ? 'disactive' : '' }}' class='active'>
 
     <ul>
@@ -90,14 +83,8 @@
                         </div>
                     </div>
                 </li>
-
             @endif
         @endforeach
-
-        <li style="border-bottom: none;">
-            <a href='{{ route('comments.index', $product->slug) }}'
-               class='view_all_comments'>Смотреть все отзывы&nbsp;&#8594;</a>
-        </li>
     </ul>
 </div>
 <!-- Блок просмотра комментариев -->

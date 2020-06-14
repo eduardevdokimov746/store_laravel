@@ -44,7 +44,7 @@
             <div class="form-group">
                 <label for="inputName" class="control-label">Ваше имя и фамилия</label>
                 @auth
-                    <input type="text" name='name' value="{{ Auth::user()->name }}"
+                    <input type="text" name='name' value="{{ Auth::user()->name}}"
                            class="form-control" id="inputName" pattern="^\S+\s\S+$" required>
                 @else
                     <input type="text" name='name' class="form-control" id="inputName"
@@ -55,7 +55,7 @@
             <div class="form-group">
                 <label for="inputName" class="control-label">Электронная почта</label>
                 @auth
-                    <input type="email" name='email' value="{{ Auth::user()->email->email }}"
+                    <input type="email" name='email' value="{{ \Auth::user()->email->email }}"
                            class="form-control" readonly id="inputName" required>
                 @else
                     <input type="email" name='email' class="form-control" id="inputName" required>

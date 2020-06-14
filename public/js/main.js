@@ -152,14 +152,14 @@ $(document).ready(function ($) {
     $('.list_comments').on('click', '.btn_view_responses', function () {
         var li = $(this).closest('li');
         var comment_id = li.data('id');
-        var regexp = /product\/comments\/(\S+)$/;
+        var regexp = /comments\/(\S+)$/;
         var getAll = false;
 
         if (regexp.exec(document.location.pathname)) {
             getAll = true;
         }
 
-        var alias = document.location.pathname.match(/product\/(\w+)/);
+        var alias = document.location.pathname.match(/products\/(\w+)/);
         if (alias) {
             alias = alias[1];
         }
@@ -167,34 +167,34 @@ $(document).ready(function ($) {
 
 
         $.ajax({
-            url: host + '/comments/getResponse',
-            type: 'post',
-            data: 'comment_id=' + comment_id + '&getAll=' + getAll + '&alias=' + alias,
+            url: host + '/comments/' + comment_id + '/responses',
+            data: 'getAll=' + getAll + '&slug=' + alias,
+            type: 'get',
             dataType: 'json',
             success: function (data) {
                 console.log(data);
                 var list_responses = '';
-                if (data.type == 'success') {
-                    list_responses += "<ul class='block_responses'><i class='fas fa-times close' id='close_form_responses_response'></i>";
-                    $.each(data.responses, function (index, item) {
-                        list_responses += "<li class='response'><p><b class='name_user'>" + item['name'] + "</b>";
-                        list_responses += "<span class='date_comment'>" + item['date'] + "</span></p>";
-                        list_responses += "<p style='clear: left;'>" + item['response'] + "</p></li>";
-                    });
 
-                    if (data.checkAll) {
-                        list_responses += "<li style='border-bottom: none; margin-top: 10px;'>";
-                        list_responses += "<a href='" + data.hrefGetAll + "' class='view_all_comments'>Смотреть все ответы&nbsp;&#8594;</a></li>";
-                    }
+                list_responses += "<ul class='block_responses'><i class='fas fa-times close' id='close_form_responses_response'></i>";
+                $.each(data.comments, function (index, item) {
+                    list_responses += "<li class='response'><p><b class='name_user'>" + item.name + "</b>";
+                    list_responses += "<span class='date_comment'>" + item.datePublication + "</span></p>";
+                    list_responses += "<p style='clear: left;'>" + item.comment + "</p></li>";
+                });
 
-                    list_responses += "</ul>";
-
-                    li.find('.footer_comment').after(list_responses);
-                    li.find('.footer_response').addClass('disactive');
-
+                if (data.checkAll) {
+                    list_responses += "<li style='border-bottom: none; margin-top: 10px;'>";
+                    list_responses += "<a href='" + data.hrefGetAll + "' class='view_all_comments'>Смотреть все ответы&nbsp;&#8594;</a></li>";
                 }
+
+                list_responses += "</ul>";
+
+                li.find('.footer_comment').after(list_responses);
+                li.find('.footer_response').addClass('disactive');
+
             },
-            error: function () {
+            error: function (s) {
+                console.log(s);
                 alertDanger();
             }
         });
@@ -290,7 +290,7 @@ $(document).ready(function ($) {
         $.ajax({
             url: host + '/cart/flush',
             success: function () {
-                form - login - user;
+
                 $('.modal-body').find('tbody').html('');
                 var htmlSummCart = "<tr class='result_line_catr' style='background: #b2ff96;'></tr>";
                 $('.modal-body').find('tbody').html(htmlSummCart);
@@ -499,97 +499,95 @@ $(document).ready(function ($) {
     });
 
 
-     $('#subReg').click(function (e) {
+    $('#subReg').click(function (e) {
 
-         console.log(1);
-         e.preventDefault();
-         var formData = map('#form_signup input');
-         var regexps = [/[A-ZА-Я]/, /\d+/];
-         var emptyField = filterEmptyField(formData);
+        console.log(1);
+        e.preventDefault();
+        var formData = map('#form_signup input');
+        var regexps = [/[A-ZА-Я]/, /\d+/];
+        var emptyField = filterEmptyField(formData);
 
-         if (Object.keys(emptyField).length > 0) {
+        if (Object.keys(emptyField).length > 0) {
 
-             for (var key in formData) {
-                 if (key in emptyField) {
-                     //поле не заполнено
-                     $('#form_signup input[name=' + key + ']').css('border', '1px solid red');
-                 } else {
-                     //поле заполнено
-                     $('#form_signup input[name=' + key + ']').css('border', '1px solid silver');
-                 }
-             }
-             return;
-         }
+            for (var key in formData) {
+                if (key in emptyField) {
+                    //поле не заполнено
+                    $('#form_signup input[name=' + key + ']').css('border', '1px solid red');
+                } else {
+                    //поле заполнено
+                    $('#form_signup input[name=' + key + ']').css('border', '1px solid silver');
+                }
+            }
+            return;
+        }
 
-         var checkValidPassword = false;
+        var checkValidPassword = false;
 
-         $.each(regexps, function (index, item) {
-             if (!item.test(formData['password']) || $.trim(formData['password']).length < 6) {
-                 $('#form_signup input[name=password]').css('border', '1px solid red');
-                 checkValidPassword = true;
-             }
-         });
+        $.each(regexps, function (index, item) {
+            if (!item.test(formData['password']) || $.trim(formData['password']).length < 6) {
+                $('#form_signup input[name=password]').css('border', '1px solid red');
+                checkValidPassword = true;
+            }
+        });
 
-         if (checkValidPassword) return;
+        if (checkValidPassword) return;
 
-         formData['remember'] = $('input[type=checkbox]').is(':checked');
+        formData['remember'] = $('input[type=checkbox]').is(':checked');
 
-         var request = '';
-         for (var key in formData) {
-             request += key + '=' + formData[key] + '&';
-         }
-         console.log(request);
-         $.ajax({
-             url: host + '/register',
-             data: request,
-             type: 'post',
-             success: function () {
-                 document.location = host + '/profile';
-             },
-             error: function (jqXHR, exception) {
-                 console.log(jqXHR, exception);
-                 if (jqXHR.responseJSON.errors.name) {
-                     $('#form_signup input[name=name]').css('border', '1px solid red');
-                     $('#form_signup #notice-error-name').removeClass('hidden').html(jqXHR.responseJSON.errors.name);
-                 } else {
-                     $('#form_signup input[name=name]').css('border', '1px solid silver');
-                     $('#form_signup #notice-error-name').addClass('hidden').html('');
-                 }
+        var request = '';
+        for (var key in formData) {
+            request += key + '=' + formData[key] + '&';
+        }
+        console.log(request);
+        $.ajax({
+            url: host + '/register',
+            data: request,
+            type: 'post',
+            success: function () {
+                document.location = host + '/profile';
+            },
+            error: function (jqXHR, exception) {
+                console.log(jqXHR, exception);
+                if (jqXHR.responseJSON.errors.name) {
+                    $('#form_signup input[name=name]').css('border', '1px solid red');
+                    $('#form_signup #notice-error-name').removeClass('hidden').html(jqXHR.responseJSON.errors.name);
+                } else {
+                    $('#form_signup input[name=name]').css('border', '1px solid silver');
+                    $('#form_signup #notice-error-name').addClass('hidden').html('');
+                }
 
-                 if (jqXHR.responseJSON.errors.email) {
-                     if (jqXHR.responseJSON.errors.email_unique) {
-                         $('#form_signup input[name=email]').css('border', '1px solid red');
-                         $('#form_signup .block-notice-form').removeClass('hidden');
-                         $('#form_signup .block-notice-form p').html(jqXHR.responseJSON.errors.email);
-                     } else {
-                         $('#form_signup input[name=email]').css('border', '1px solid silver');
-                         $('#form_signup .block-notice-form').addClass('hidden');
-                         $('#form_signup .block-notice-form p').html('');
-
-
-
-                         $('#form_signup input[name=email]').css('border', '1px solid red');
-                         $('#form_signup #notice-error-email').removeClass('hidden').html(jqXHR.responseJSON.errors.email);
-                     }
-                 } else {
-                     $('#form_signup input[name=email]').css('border', '1px solid silver');
-                     $('#form_signup #notice-error-email').addClass('hidden').html('');
-                 }
+                if (jqXHR.responseJSON.errors.email) {
+                    if (jqXHR.responseJSON.errors.email_unique) {
+                        $('#form_signup input[name=email]').css('border', '1px solid red');
+                        $('#form_signup .block-notice-form').removeClass('hidden');
+                        $('#form_signup .block-notice-form p').html(jqXHR.responseJSON.errors.email);
+                    } else {
+                        $('#form_signup input[name=email]').css('border', '1px solid silver');
+                        $('#form_signup .block-notice-form').addClass('hidden');
+                        $('#form_signup .block-notice-form p').html('');
 
 
-
-                 if (jqXHR.responseJSON.errors.password) {
-                     $('#form_signup input[name=password]').css('border', '1px solid red');
-                     $('#form_signup .notice-form').css('color', 'red');
-                 } else {
-                     $('#form_signup input[name=password]').css('border', '1px solid silver');
-                     $('#form_signup .notice-form').css('color', 'silver');
-                 }
-             },
-         });
+                        $('#form_signup input[name=email]').css('border', '1px solid red');
+                        $('#form_signup #notice-error-email').removeClass('hidden').html(jqXHR.responseJSON.errors.email);
+                    }
+                } else {
+                    $('#form_signup input[name=email]').css('border', '1px solid silver');
+                    $('#form_signup #notice-error-email').addClass('hidden').html('');
+                }
 
 
-     });
+                if (jqXHR.responseJSON.errors.password) {
+                    $('#form_signup input[name=password]').css('border', '1px solid red');
+                    $('#form_signup .notice-form').css('color', 'red');
+                } else {
+                    $('#form_signup input[name=password]').css('border', '1px solid silver');
+                    $('#form_signup .notice-form').css('color', 'silver');
+                }
+            },
+        });
+
+
+    });
 
     $('#subLogin').click(function (e) {
         e.preventDefault();
@@ -649,12 +647,13 @@ $(document).ready(function ($) {
         }
 
         if (form.find('form input[type=checkbox]').is(':checked')) {
-            formData['notice_response'] = 1;
+            formData['is_notifiable'] = 1;
         } else {
-            formData['notice_response'] = 0;
+            formData['is_notifiable'] = 0;
         }
 
         formData['rating'] = form.find('li[data-status]').length;
+
         if (formData['rating'] < 1 && formData['type'] == 'otzuv') {
             alertNotice('Вы не указали во сколько звезд оцениваете товар!');
             return;
@@ -669,13 +668,13 @@ $(document).ready(function ($) {
         console.log(request);
 
         $.ajax({
-            url: host + '/comments/add',
+            url: host + '/comments',
             type: 'post',
             data: request,
             dataType: 'json',
             success: function (data) {
                 console.log(data);
-                if (data.type == 'mail_exist') {
+                if (data == 'mail_exists') {
                     if (form.find('.form-group .message-error-tooltip').length < 1) {
                         var html = "<span class='message-error-tooltip'>Пользователь с таким адресом эл. почты уже зарегистрирован, авторизируйтесь&nbsp;";
                         html += "<a href='" + host + "/login'>Войти</a></span>";
@@ -687,7 +686,7 @@ $(document).ready(function ($) {
 
                     var html = '';
                     if (formData['type'] == 'otzuv') {
-                        html += "<li data-id='" + data.id + "'><p><b class='name_user'>" + data.data['name'] + "</b>";
+                        html += "<li data-id='" + data.id + "'><div><b class='name_user'>" + data.name + "</b>";
 
                         html += "<div class='widget_stars'><ul>";
 
@@ -700,13 +699,13 @@ $(document).ready(function ($) {
                         }
 
                         html += "</ul></div>";
-                        html += "<span class='date_comment'>" + data.data['date'] + "</span></p><p style='clear: left;'>" + data.data['comment'] + "</p>";
-                        html += "<p><b style='color: black;'>Достоинства: </b>" + data.data['good_comment'] + "</p>";
-                        html += "<p><b style='color: black;'>Недостатки: </b>" + data.data['bad_comment'] + "</p>";
+                        html += "<span class='date_comment'>" + data.date_publication + "</span></p><p style='clear: left;'>" + data.comment + "</p>";
+                        html += "<p><b style='color: black;'>Достоинства: </b>" + data.good_comment + "</p>";
+                        html += "<p><b style='color: black;'>Недостатки: </b>" + data.bad_comment + "</p>";
 
                     } else {
-                        html += "<li data-id='" + data.id + "'><p><b class='name_user'>" + data.data['name'] + "</b>";
-                        html += "<span class='date_comment'>" + data.data['date'] + "</span></p><p style='clear: left;'>" + data.data['comment'] + "</p>";
+                        html += "<li data-id='" + data.id + "'><div><b class='name_user'>" + data.name + "</b>";
+                        html += "<span class='date_comment'>" + data.date_publication + "</span></div><p style='clear: left;'>" + data.comment + "</p>";
                     }
 
                     html += "<div style='margin-top: 10px;' class='footer_comment'>";
@@ -727,10 +726,10 @@ $(document).ready(function ($) {
                         alertSuccess('Отзыв успешно добавлен!');
                     else
                         alertSuccess('Комментарий успешно добавлен!');
-
                 }
             },
-            error: function () {
+            error: function (s) {
+                console.log(s);
                 alertDanger();
             },
         });
@@ -783,7 +782,7 @@ $(document).ready(function ($) {
                 console.log(jqXHR);
                 var msgs = '';
 
-                for(var item in jqXHR.responseJSON.errors){
+                for (var item in jqXHR.responseJSON.errors) {
                     msgs += jqXHR.responseJSON.errors[item][0] + '<br>';
                 }
 
@@ -823,13 +822,13 @@ $(document).ready(function ($) {
             success: function (data) {
                 console.log(data);
 
-                    $('.block-notice-form').addClass('hidden').find('p').html('');
-                    form.find('input[name=email]').addClass('hidden');
-                    form.find('span').html('На Вашу почту отправлено письмо с кодом восстановления.');
-                    form.find('input[type=submit]').val('Подтвердить');
-                    form.find('input[name=code]').removeClass('hidden');
-                    form.prop('id', 'form-check-code-restore');
-                    form.append("<input type='hidden' name='email' value='"+ email +"'");
+                $('.block-notice-form').addClass('hidden').find('p').html('');
+                form.find('input[name=email]').addClass('hidden');
+                form.find('span').html('На Вашу почту отправлено письмо с кодом восстановления.');
+                form.find('input[type=submit]').val('Подтвердить');
+                form.find('input[name=code]').removeClass('hidden');
+                form.prop('id', 'form-check-code-restore');
+                form.append("<input type='hidden' name='email' value='" + email + "'");
             },
             error: function (jqXHR, exception) {
                 console.log(jqXHR);
@@ -849,8 +848,6 @@ $(document).ready(function ($) {
         var code = form.find('input[name=code]').val();
 
         var formData = map(form.find('input'));
-
-
 
 
         if (code.match(/^\s*$/)) {
@@ -963,7 +960,7 @@ $(document).ready(function ($) {
                 console.log(jqXHR);
                 if (exception == 'error') {
                     var msgs = '';
-                    for(var item in jqXHR.responseJSON.errors) {
+                    for (var item in jqXHR.responseJSON.errors) {
                         msgs += jqXHR.responseJSON.errors[item][0] + "<br>";
                     }
                     form.find('#notice p').html(msgs);

@@ -112,7 +112,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <i class="fas fa-balance-scale" style="font-size: 25px; color: white;"></i>
                     </button>
 
-                    <span>123</span>
+                    @if(Comparison::isNotEmpty())
+                        <span>{{ Comparison::getCountProduct() }}</span>
+                    @endif
 
                 </div>
                 <div class="cart" id='wishlist' title='Список желаний'>

@@ -72,22 +72,29 @@ Route::middleware('auth')->group(function () {
     /* Wishlist routes */
 
     /* Comments routes */
-    Route::resource('comments', 'CommentController')->names('comments');
     Route::post('comments/like/{comment_id}', 'CommentController@like')->name('comments.like');
     Route::post('comments/dislike/{comment_id}', 'CommentController@dislike')->name('comments.dislike');
-    Route::resource('comments.responses', 'CommentResponseController')->names('comments.responses');
+
 
     /* Comments routes */
 });
 
+Route::get('comments/{slug}', 'CommentController@index')->name('comments.index');
+Route::resource('comments', 'CommentController')->names('comments')->except('index');
+
+Route::resource('comments.responses', 'CommentResponseController')->names('comments.responses');
+
 Route::get('search/handle', 'SearchController@handle');
 Route::get('search/{searchText}', 'SearchController@index');
 
+Route::get('comparison', 'ComparisonController@index')->name('comparison.index');
+Route::post('comparison/{product_id}', 'ComparisonController@store')->name('comparison.store');
+Route::delete('comparison/{id}', 'ComparisonController@delete')->name('comparison.delete');
+Route::get('comparison/{slug}', 'ComparisonController@show')->name('comparison.show');
 
 Route::get('mail', function () {
-   return new \App\Mail\ConfirmMail;
+   return new \App\Mail\CommentResponse(\App\Models\ResponseComment::find(11));
 });
-
 
 // ADMIN PANEL
 

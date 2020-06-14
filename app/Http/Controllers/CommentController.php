@@ -2,19 +2,47 @@
 
 namespace App\Http\Controllers;
 
+use App\Extensions\CommentData;
+use App\Extensions\CommentExtension;
+use App\Http\Requests\AddCommentRequest;
+use App\Mail\ConfirmMail;
+use App\Models\Product;
+use App\Models\ProductInfo;
+use App\Repositories\CommentRepository;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Services\Comment;
+use App\Models\Comment as ModelComment;
+use App\Extensions\UserExtension;
 
-class CommentController extends Controller
+class CommentController extends BaseController
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['store']);
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(CommentRepository $commentRepository, $slug)
     {
-        
+        $product = Product::where('slug', $slug)->first();
+
+        if (is_null($product)) {
+            return abort(404);
+        }
+
+        $comments = $commentRepository->getForShow($product->id, \request()->get('id'));
+
+        $comments->transform(function ($item, $key) {
+            return CommentData::changeForShow($item);
+        });
+
+        return view('comments.index', compact('comments', 'product'));
     }
 
     /**
@@ -33,9 +61,33 @@ class CommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AddCommentRequest $request)
     {
-        //
+        if (\Auth::guest()) {
+
+            //Если не пользователь авторизован
+
+            if(UserExtension::checkExistsWithEmail($request->get('email'))){
+                //Если аккаунт существует
+                return JsonResponse::create('mail_exists', 200);
+            }
+
+            $user = UserExtension::createForComment($request->only(['name', 'email']));
+
+            if ($user instanceof Authenticatable) {
+                \Mail::to($user->email->email)->send(new ConfirmMail($user));
+                \Auth::login($user);
+            } else {
+                return abort(422);
+            }
+        }
+
+        $comment = Comment::add($request);
+
+        $comment['type'] = 'success';
+        $comment['name'] = \Auth::user()->name;
+
+        return response($comment, 200);
     }
 
     /**

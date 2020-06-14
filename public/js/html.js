@@ -2,10 +2,10 @@
 var form_response = "<div class='form_add_response'>";
 form_response += "<form data-toggle='validator' role='form'>";
 form_response += "<div class='form-group'><label for='comm' class='control-label'>Комментарий</label>";
-form_response += "<textarea id='comm' name='comment' class='form-control' rows='3' required></textarea></div><div class='form-group'>";
+form_response += "<textarea id='comm' name='comment_data' class='form-control' rows='3' required></textarea></div><div class='form-group'>";
 form_response += "<label for='name' class='control-label'>Ваше имя и фамилия</label>";
 if(!userAuth){
-    
+
     form_response += "<input type='text' name='name' class='form-control' id='name' pattern='^\\S+\\s\\S+$' required></div>";
     form_response += "<div class='form-group'><label for='email' class='control-label'>Электронная почта</label>";
     form_response += "<input type='email' name='email' class='form-control' id='email' required></div>";

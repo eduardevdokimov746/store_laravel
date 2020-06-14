@@ -16,7 +16,9 @@ class IndexController extends BaseController
 {
     public function __invoke(CategoryRepository $categoryRepository)
     {
-        
+
+
+        //dd(Comment::selectRaw('SUM(`rating`) as sum, COUNT(`rating`) as count')->where('product_id', 2)->first());
 
        // dd(session('authenticate-user'));
        // \Category::flush();

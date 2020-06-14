@@ -179,4 +179,22 @@ class ProductRepository extends CoreRepository
             ->orderByRaw($sort)
             ->paginate(12);
     }
+
+    public function getForComparison($product_ids)
+    {
+        $select = [
+            'products.id',
+            'products.slug',
+            'products.title',
+            'products.img',
+            'products.price',
+            'product_info.big_specifications'
+        ];
+
+        return $this->startConditions()
+            ->select($select)
+            ->join('product_info', 'products.id', 'product_info.product_id')
+            ->whereIn('products.id', $product_ids)
+            ->get();
+    }
 }

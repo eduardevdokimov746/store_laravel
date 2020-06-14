@@ -18,7 +18,8 @@
         "laravel/ui": "^2.0",
         "socialiteproviders/google": "^3.0",
         "socialiteproviders/mailru": "dev-master",
-        "socialiteproviders/vkontakte": "^4.1"
+        "socialiteproviders/vkontakte": "^4.1",
+        "kub-at/php-simple-html-dom-parser": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.3",

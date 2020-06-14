@@ -33,4 +33,32 @@ class CommentRepository extends CoreRepository
             ->take(3)
             ->get();
     }
+
+    public function getForShow($product_id, $comment_id = null)
+    {
+        $select = [
+            'id',
+            'user_id',
+            'type',
+            'comment',
+            'good_comment',
+            'bad_comment',
+            'rating',
+            'created_at'
+        ];
+
+        $conditions = $this->startConditions();
+
+        if (!is_null($comment_id)) {
+            $conditions = $conditions->where('id', $comment_id);
+        }
+
+        return $conditions
+            ->select($select)
+            ->where('product_id', $product_id)
+            ->with(['responseComment', 'likes', 'dislikes', 'user'])
+            ->withCount(['responseComment', 'likes', 'dislikes'])
+            ->orderByDesc('created_at')
+            ->paginate(20);
+    }
 }

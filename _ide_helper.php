@@ -3,7 +3,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 7.14.1 on 2020-06-06 09:20:15.
+ * Generated for Laravel 7.15.0 on 2020-06-14 09:52:17.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -3780,6 +3780,110 @@ namespace Illuminate\Support\Facades {
         public static function hasMacro($name)
         {
                         return \Illuminate\Cookie\CookieJar::hasMacro($name);
+        }
+         
+    }
+
+    /**
+     * 
+     *
+     * @see \Illuminate\Encryption\Encrypter
+     */ 
+    class Crypt {
+        
+        /**
+         * Determine if the given key and cipher combination is valid.
+         *
+         * @param string $key
+         * @param string $cipher
+         * @return bool 
+         * @static 
+         */ 
+        public static function supported($key, $cipher)
+        {
+                        return \Illuminate\Encryption\Encrypter::supported($key, $cipher);
+        }
+        
+        /**
+         * Create a new encryption key for the given cipher.
+         *
+         * @param string $cipher
+         * @return string 
+         * @static 
+         */ 
+        public static function generateKey($cipher)
+        {
+                        return \Illuminate\Encryption\Encrypter::generateKey($cipher);
+        }
+        
+        /**
+         * Encrypt the given value.
+         *
+         * @param mixed $value
+         * @param bool $serialize
+         * @return string 
+         * @throws \Illuminate\Contracts\Encryption\EncryptException
+         * @static 
+         */ 
+        public static function encrypt($value, $serialize = true)
+        {
+                        /** @var \Illuminate\Encryption\Encrypter $instance */
+                        return $instance->encrypt($value, $serialize);
+        }
+        
+        /**
+         * Encrypt a string without serialization.
+         *
+         * @param string $value
+         * @return string 
+         * @throws \Illuminate\Contracts\Encryption\EncryptException
+         * @static 
+         */ 
+        public static function encryptString($value)
+        {
+                        /** @var \Illuminate\Encryption\Encrypter $instance */
+                        return $instance->encryptString($value);
+        }
+        
+        /**
+         * Decrypt the given value.
+         *
+         * @param string $payload
+         * @param bool $unserialize
+         * @return mixed 
+         * @throws \Illuminate\Contracts\Encryption\DecryptException
+         * @static 
+         */ 
+        public static function decrypt($payload, $unserialize = true)
+        {
+                        /** @var \Illuminate\Encryption\Encrypter $instance */
+                        return $instance->decrypt($payload, $unserialize);
+        }
+        
+        /**
+         * Decrypt the given string without unserialization.
+         *
+         * @param string $payload
+         * @return string 
+         * @throws \Illuminate\Contracts\Encryption\DecryptException
+         * @static 
+         */ 
+        public static function decryptString($payload)
+        {
+                        /** @var \Illuminate\Encryption\Encrypter $instance */
+                        return $instance->decryptString($payload);
+        }
+        
+        /**
+         * Get the encryption key.
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getKey()
+        {
+                        /** @var \Illuminate\Encryption\Encrypter $instance */
+                        return $instance->getKey();
         }
          
     }
@@ -8060,6 +8164,61 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Release a reserved job back onto the queue.
+         *
+         * @param string $queue
+         * @param \Illuminate\Queue\Jobs\DatabaseJobRecord $job
+         * @param int $delay
+         * @return mixed 
+         * @static 
+         */ 
+        public static function release($queue, $job, $delay)
+        {
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
+                        return $instance->release($queue, $job, $delay);
+        }
+        
+        /**
+         * Delete a reserved job from the queue.
+         *
+         * @param string $queue
+         * @param string $id
+         * @return void 
+         * @throws \Throwable
+         * @static 
+         */ 
+        public static function deleteReserved($queue, $id)
+        {
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
+                        $instance->deleteReserved($queue, $id);
+        }
+        
+        /**
+         * Get the queue or return the default.
+         *
+         * @param string|null $queue
+         * @return string 
+         * @static 
+         */ 
+        public static function getQueue($queue)
+        {
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
+                        return $instance->getQueue($queue);
+        }
+        
+        /**
+         * Get the underlying database instance.
+         *
+         * @return \Illuminate\Database\Connection 
+         * @static 
+         */ 
+        public static function getDatabase()
+        {
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
+                        return $instance->getDatabase();
+        }
+        
+        /**
          * Get the retry delay for an object-based queue handler.
          *
          * @param mixed $job
@@ -8069,7 +8228,7 @@ namespace Illuminate\Support\Facades {
         public static function getJobRetryDelay($job)
         {
             //Method inherited from \Illuminate\Queue\Queue            
-                        /** @var \Illuminate\Queue\SyncQueue $instance */
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
                         return $instance->getJobRetryDelay($job);
         }
         
@@ -8083,7 +8242,7 @@ namespace Illuminate\Support\Facades {
         public static function getJobExpiration($job)
         {
             //Method inherited from \Illuminate\Queue\Queue            
-                        /** @var \Illuminate\Queue\SyncQueue $instance */
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
                         return $instance->getJobExpiration($job);
         }
         
@@ -8097,7 +8256,7 @@ namespace Illuminate\Support\Facades {
         public static function createPayloadUsing($callback)
         {
             //Method inherited from \Illuminate\Queue\Queue            
-                        \Illuminate\Queue\SyncQueue::createPayloadUsing($callback);
+                        \Illuminate\Queue\DatabaseQueue::createPayloadUsing($callback);
         }
         
         /**
@@ -8110,7 +8269,7 @@ namespace Illuminate\Support\Facades {
         public static function setContainer($container)
         {
             //Method inherited from \Illuminate\Queue\Queue            
-                        /** @var \Illuminate\Queue\SyncQueue $instance */
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
                         $instance->setContainer($container);
         }
          
@@ -15222,6 +15381,17 @@ namespace App\Facades {
                         /** @var \App\Services\ViewedProduct $instance */
                         return $instance->add($id);
         }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function isNotEmpty()
+        {
+                        /** @var \App\Services\ViewedProduct $instance */
+                        return $instance->isNotEmpty();
+        }
          
     }
 
@@ -15236,10 +15406,589 @@ namespace App\Facades {
          *
          * @static 
          */ 
-        public static function has($id)
+        public static function has($product_id)
         {
                         /** @var \App\Services\Comparison $instance */
+                        return $instance->has($product_id);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function add($product)
+        {
+                        /** @var \App\Services\Comparison $instance */
+                        return $instance->add($product);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function hasCategory($category_id)
+        {
+                        /** @var \App\Services\Comparison $instance */
+                        return $instance->hasCategory($category_id);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getCountProductInCategory($category_id)
+        {
+                        /** @var \App\Services\Comparison $instance */
+                        return $instance->getCountProductInCategory($category_id);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function hasProduct($category_id, $product_id)
+        {
+                        /** @var \App\Services\Comparison $instance */
+                        return $instance->hasProduct($category_id, $product_id);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getCountProduct()
+        {
+                        /** @var \App\Services\Comparison $instance */
+                        return $instance->getCountProduct();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function delete($product_id)
+        {
+                        /** @var \App\Services\Comparison $instance */
+                        return $instance->delete($product_id);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function search($product_id)
+        {
+                        /** @var \App\Services\Comparison $instance */
+                        return $instance->search($product_id);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function isEmptyCategory($category_id)
+        {
+                        /** @var \App\Services\Comparison $instance */
+                        return $instance->isEmptyCategory($category_id);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function isNotEmptyCategory($category_id)
+        {
+                        /** @var \App\Services\Comparison $instance */
+                        return $instance->isNotEmptyCategory($category_id);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function isEmpty()
+        {
+                        /** @var \App\Services\Comparison $instance */
+                        return $instance->isEmpty();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function isNotEmpty()
+        {
+                        /** @var \App\Services\Comparison $instance */
+                        return $instance->isNotEmpty();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getAll()
+        {
+                        /** @var \App\Services\Comparison $instance */
+                        return $instance->getAll();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getProducts($category_id)
+        {
+                        /** @var \App\Services\Comparison $instance */
+                        return $instance->getProducts($category_id);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function get($productRepository)
+        {
+                        /** @var \App\Services\Comparison $instance */
+                        return $instance->get($productRepository);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getComparison($category_id, $productRepository)
+        {
+                        /** @var \App\Services\Comparison $instance */
+                        return $instance->getComparison($category_id, $productRepository);
+        }
+         
+    }
+
+    /**
+     * 
+     *
+     */ 
+    class CategoryFacade {
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getAll()
+        {
+                        /** @var \App\Services\Category $instance */
+                        return $instance->getAll();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function isNotebook($category_id)
+        {
+                        /** @var \App\Services\Category $instance */
+                        return $instance->isNotebook($category_id);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function get($id)
+        {
+                        /** @var \App\Services\Category $instance */
+                        return $instance->get($id);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function has($id)
+        {
+                        /** @var \App\Services\Category $instance */
                         return $instance->has($id);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getTree()
+        {
+                        /** @var \App\Services\Category $instance */
+                        return $instance->getTree();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getId($slug)
+        {
+                        /** @var \App\Services\Category $instance */
+                        return $instance->getId($slug);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getChildCategories($id)
+        {
+                        /** @var \App\Services\Category $instance */
+                        return $instance->getChildCategories($id);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getChildTree($id)
+        {
+                        /** @var \App\Services\Category $instance */
+                        return $instance->getChildTree($id);
+        }
+        
+        /**
+         * Get tree categories
+         *
+         * @param string $slug
+         * @return array|null 
+         * @static 
+         */ 
+        public static function getChildTreeFromSlug($slug)
+        {
+                        /** @var \App\Services\Category $instance */
+                        return $instance->getChildTreeFromSlug($slug);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getCurrentWithChild($slug)
+        {
+                        /** @var \App\Services\Category $instance */
+                        return $instance->getCurrentWithChild($slug);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getParent($id)
+        {
+                        /** @var \App\Services\Category $instance */
+                        return $instance->getParent($id);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function hasChild($id)
+        {
+                        /** @var \App\Services\Category $instance */
+                        return $instance->hasChild($id);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getParentId($id)
+        {
+                        /** @var \App\Services\Category $instance */
+                        return $instance->getParentId($id);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function flush()
+        {
+                        /** @var \App\Services\Category $instance */
+                        return $instance->flush();
+        }
+         
+    }
+
+    /**
+     * 
+     *
+     */ 
+    class WishlistFacade {
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getLists()
+        {
+                        /** @var \App\Services\Wishlist $instance */
+                        return $instance->getLists();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getList($list_id)
+        {
+                        /** @var \App\Services\Wishlist $instance */
+                        return $instance->getList($list_id);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getProducts($list_id)
+        {
+                        /** @var \App\Services\Wishlist $instance */
+                        return $instance->getProducts($list_id);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getCountList($list_id)
+        {
+                        /** @var \App\Services\Wishlist $instance */
+                        return $instance->getCountList($list_id);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function test()
+        {
+                        /** @var \App\Services\Wishlist $instance */
+                        return $instance->test();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function setProductsData($list_id, $products)
+        {
+                        /** @var \App\Services\Wishlist $instance */
+                        return $instance->setProductsData($list_id, $products);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getSumList($list_id)
+        {
+                        /** @var \App\Services\Wishlist $instance */
+                        return $instance->getSumList($list_id);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function isEmpty($list_id)
+        {
+                        /** @var \App\Services\Wishlist $instance */
+                        return $instance->isEmpty($list_id);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function isNotEmpty($id)
+        {
+                        /** @var \App\Services\Wishlist $instance */
+                        return $instance->isNotEmpty($id);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function has($id)
+        {
+                        /** @var \App\Services\Wishlist $instance */
+                        return $instance->has($id);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function hasProductList($list_id, $product_id)
+        {
+                        /** @var \App\Services\Wishlist $instance */
+                        return $instance->hasProductList($list_id, $product_id);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function hasProduct($product_id)
+        {
+                        /** @var \App\Services\Wishlist $instance */
+                        return $instance->hasProduct($product_id);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function isDefault($list_id)
+        {
+                        /** @var \App\Services\Wishlist $instance */
+                        return $instance->isDefault($list_id);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function issetDefault()
+        {
+                        /** @var \App\Services\Wishlist $instance */
+                        return $instance->issetDefault();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function isset()
+        {
+                        /** @var \App\Services\Wishlist $instance */
+                        return $instance->isset();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function create($data = [])
+        {
+                        /** @var \App\Services\Wishlist $instance */
+                        return $instance->create($data);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getCountProduct()
+        {
+                        /** @var \App\Services\Wishlist $instance */
+                        return $instance->getCountProduct();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function addProduct($product_id)
+        {
+                        /** @var \App\Services\Wishlist $instance */
+                        return $instance->addProduct($product_id);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function renameList($list_id, $title)
+        {
+                        /** @var \App\Services\Wishlist $instance */
+                        return $instance->renameList($list_id, $title);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function changeDefaultList($list_id)
+        {
+                        /** @var \App\Services\Wishlist $instance */
+                        return $instance->changeDefaultList($list_id);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function delete($id)
+        {
+                        /** @var \App\Services\Wishlist $instance */
+                        return $instance->delete($id);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function deleteProducts($list_id, $product_ids)
+        {
+                        /** @var \App\Services\Wishlist $instance */
+                        return $instance->deleteProducts($list_id, $product_ids);
         }
          
     }
@@ -16249,6 +16998,8 @@ namespace  {
 
     class Cookie extends \Illuminate\Support\Facades\Cookie {}
 
+    class Crypt extends \Illuminate\Support\Facades\Crypt {}
+
     class DB extends \Illuminate\Support\Facades\DB {}
 
     class Eloquent extends \Illuminate\Database\Eloquent\Model {         
@@ -17013,7 +17764,7 @@ namespace  {
              * Pass the query to a given callback.
              *
              * @param callable $callback
-             * @return \Illuminate\Database\Query\Builder 
+             * @return \Illuminate\Database\Eloquent\Builder 
              * @static 
              */ 
             public static function tap($callback)
@@ -17328,7 +18079,7 @@ namespace  {
             /**
              * Add a subselect expression to the query.
              *
-             * @param \Closure|\Illuminate\Database\Query\Builder|string $query
+             * @param \Closure|$this|string $query
              * @param string $as
              * @return \Illuminate\Database\Query\Builder 
              * @throws \InvalidArgumentException
@@ -19180,6 +19931,10 @@ namespace  {
     class ViewedProduct extends \App\Facades\ViewedProductFacade {}
 
     class Comparison extends \App\Facades\ComparisonFacade {}
+
+    class Category extends \App\Facades\CategoryFacade {}
+
+    class Wishlist extends \App\Facades\WishlistFacade {}
 
     class Debugbar extends \Barryvdh\Debugbar\Facade {}
 
