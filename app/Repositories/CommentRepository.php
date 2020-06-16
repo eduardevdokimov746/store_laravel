@@ -61,4 +61,21 @@ class CommentRepository extends CoreRepository
             ->orderByDesc('created_at')
             ->paginate(20);
     }
+
+    public function getForProfile($user_id)
+    {
+        $select = [
+            'id',
+            'product_id',
+            'comment',
+            'created_at'
+        ];
+
+        return $this->startConditions()
+            ->select($select)
+            ->with(['product:id,title,slug,img', 'responseComment:user_id,comment_id,comment,created_at', 'responseComment.user:id,name'])
+            ->where('user_id', $user_id)
+            ->orderByDesc('created_at')
+            ->get();
+    }
 }

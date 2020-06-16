@@ -32,7 +32,7 @@ class Cart
             'cart_count' => $this->countItems
         ];
 
-        return json_encode($result);
+        return $result;
     }
 
     public function getProducts()
@@ -75,6 +75,11 @@ class Cart
     public function isEmpty()
     {
         return $this->items->isEmpty();
+    }
+
+    public function isNotEmpty()
+    {
+        return !$this->isEmpty();
     }
 
     public function getCount()

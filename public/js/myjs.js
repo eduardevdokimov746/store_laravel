@@ -832,26 +832,25 @@ $(document).ready(function () {
         }
 
         $.ajax({
-            url: host + '/order/checkout',
+            url: host + '/orders',
             type: 'post',
             data: request,
             dataType: 'json',
             success: function (data) {
                 console.log(data);
 
-                if (data.type == 'user_exist') {
+                if (data == 'mail_exists') {
                     $('#msg_user_exist').removeClass('hidden');
                     return;
                 }
 
-                if (data.type == 'success') {
-                    $('#msg_success').removeClass('hidden');
-                    $('#msg_user_exist').addClass('hidden');
-                    $('#countProductCart').remove();
-                    $('.block-info-order').addClass('hidden');
-                }
+                $('#msg_success').removeClass('hidden');
+                $('#msg_user_exist').addClass('hidden');
+                $('#countProductCart').remove();
+                $('.block-info-order').addClass('hidden');
             },
-            error: function () {
+            error: function (s) {
+                console.log(s);
                 alertDanger();
             }
         });

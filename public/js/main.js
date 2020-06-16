@@ -372,30 +372,54 @@ $(document).ready(function ($) {
             data: 'id=' + id,
             dataType: 'json',
             success: function (data) {
-                $('.modal-body tbody').html();
-                var htmlSummCart = "<tr class='result_line_catr' style='background: #b2ff96;'></tr>";
-                $('.modal-body').find('tbody').html(htmlSummCart);
+                if (document.location.pathname == '/orders/create') {
+                    $('.modal-body tbody').html();
+                    var htmlSummCart = "<tr class='result_line_catr' style='background: #b2ff96;'></tr>";
+                    $('.modal-body tbody').html(htmlSummCart);
 
-                $.each(data['cart'], function (index, item) {
-                    var html = "<tr data-id='" + item['id'] + "'><td><img src='" + host + "/storage/images/" + item['img'] + "' alt='img' style='width: 60px; '>";
-                    html += "</td><td style='width: 50%;'><a href='" + host + '/product/' + item['slug'] + "'>" + item['title'] + "</a></td>";
-                    html += "<td class='price'>" + simbolCurrency + '&nbsp;' + item['price'] + "</td><td><div><button class='btn_box_number delCountProduct'>&#8212;</button>";
-                    html += "<input type='text' class='box_number' maxlength='3' readonly value='" + item['count'] + "'><button class='btn_box_number addCountProduct'>+</button></div></td>";
-                    html += "<td class='summProduct'>" + simbolCurrency + '&nbsp;' + item['sum'] + "</td>";
-                    html += "<td><span style='cursor: pointer;' class='glyphicon glyphicon-remove text-danger del-item delProductCart' aria-hidden='true'></span></td></tr>";
+                    $.each(data['cart'], function (index, item) {
+                        var html = "<tr data-id='" + item['id'] + "'><td><img src='" + host + "/storage/images/" + item['img'] + "' alt='img' style='width: 60px; '>";
+                        html += "</td><td style='width: 50%;'><a href='" + host + '/product/' + item['slug'] + "'>" + item['title'] + "</a></td>";
+                        html += "<td class='price'>" + simbolCurrency + '&nbsp;' + item['price'] + "</td><td><div><button class='btn_box_number delCountProduct'>&#8212;</button>";
+                        html += "<input type='text' class='box_number' maxlength='3' readonly value='" + item['count'] + "'><button class='btn_box_number addCountProduct'>+</button></div></td>";
+                        html += "<td class='summProduct'>" + simbolCurrency + '&nbsp;' + item['sum'] + "</td>";
+                        html += "<td><span style='cursor: pointer;' class='glyphicon glyphicon-remove text-danger del-item delProductCart' aria-hidden='true'></span></td></tr>";
 
-                    $('.modal-body tbody').prepend(html);
-                });
+                        $('.modal-body tbody').prepend(html);
+                    });
 
-                var resultCart = "<th scope='row' colspan='2' >Итоговая сумма</th><td></td>";
-                resultCart += "<td></td><td class='final_price' style='background: #0280e1;' colspan='2'><span>" + simbolCurrency + '&nbsp;' + data['cart_sum'] + "</span></td>";
+                    var resultCart = "<th scope='row' colspan='2' >Итоговая сумма</th><td></td>";
+                    resultCart += "<td></td><td class='final_price' style='background: #0280e1;' colspan='2'><span>" + simbolCurrency + '&nbsp;' + data['cart_sum'] + "</span></td>";
 
-                $('.result_line_catr').html(resultCart);
+                    $('.result_line_catr').html(resultCart);
 
-                $('#countProductCart').html(data['cart_count']);
+                    $('#countProductCart').html(data['cart_count']);
+                } else {
+                    $('tbody').html();
+                    var htmlSummCart = "<tr class='result_line_catr' style='background: #b2ff96;'></tr>";
+                    $('tbody').html(htmlSummCart);
+
+                    $.each(data['cart'], function (index, item) {
+                        var html = "<tr data-id='" + item['id'] + "'><td><img src='" + host + "/storage/images/" + item['img'] + "' alt='img' style='width: 60px; '>";
+                        html += "</td><td style='width: 50%;'><a href='" + host + '/product/' + item['slug'] + "'>" + item['title'] + "</a></td>";
+                        html += "<td class='price'>" + simbolCurrency + '&nbsp;' + item['price'] + "</td><td><div><button class='btn_box_number delCountProduct'>&#8212;</button>";
+                        html += "<input type='text' class='box_number' maxlength='3' readonly value='" + item['count'] + "'><button class='btn_box_number addCountProduct'>+</button></div></td>";
+                        html += "<td class='summProduct'>" + simbolCurrency + '&nbsp;' + item['sum'] + "</td>";
+                        html += "<td><span style='cursor: pointer;' class='glyphicon glyphicon-remove text-danger del-item delProductCart' aria-hidden='true'></span></td></tr>";
+
+                        $('tbody').prepend(html);
+                    });
+
+                    var resultCart = "<th scope='row' colspan='2' >Итоговая сумма</th><td></td>";
+                    resultCart += "<td></td><td class='final_price' style='background: #0280e1;' colspan='2'><span>" + simbolCurrency + '&nbsp;' + data['cart_sum'] + "</span></td>";
+
+                    $('.result_line_catr').html(resultCart);
+
+                    $('#countProductCart').html(data['cart_count']);
+                }
 
                 timerId = setTimeout(function () {
-                    if (document.location.pathname == '/order')
+                    if (document.location.pathname == '/orders/create')
                         document.location.reload();
                 }, 2000);
             },
@@ -421,38 +445,54 @@ $(document).ready(function ($) {
             data: 'id=' + id,
             dataType: 'json',
             success: function (data) {
+                if (document.location.pathname == '/orders/create') {
+                    $('.modal-body tbody').html();
+                    var htmlSummCart = "<tr class='result_line_catr' style='background: #b2ff96;'></tr>";
+                    $('.modal-body tbody').html(htmlSummCart);
 
-                $('.modal-body tbody').html();
-                var htmlSummCart = "<tr class='result_line_catr' style='background: #b2ff96;'></tr>";
-                $('.modal-body').find('tbody').html(htmlSummCart);
+                    $.each(data['cart'], function (index, item) {
+                        var html = "<tr data-id='" + item['id'] + "'><td><img src='" + host + "/storage/images/" + item['img'] + "' alt='img' style='width: 60px; '>";
+                        html += "</td><td style='width: 50%;'><a href='" + host + '/product/' + item['slug'] + "'>" + item['title'] + "</a></td>";
+                        html += "<td class='price'>" + simbolCurrency + '&nbsp;' + item['price'] + "</td><td><div><button class='btn_box_number delCountProduct'>&#8212;</button>";
+                        html += "<input type='text' class='box_number' maxlength='3' readonly value='" + item['count'] + "'><button class='btn_box_number addCountProduct'>+</button></div></td>";
+                        html += "<td class='summProduct'>" + simbolCurrency + '&nbsp;' + item['sum'] + "</td>";
+                        html += "<td><span style='cursor: pointer;' class='glyphicon glyphicon-remove text-danger del-item delProductCart' aria-hidden='true'></span></td></tr>";
 
-                $.each(data['cart'], function (index, item) {
-                    var html = "<tr data-id='" + item['id'] + "'><td><img src='" + host + "/storage/images/" + item['img'] + "' alt='img' style='width: 60px; '>";
-                    html += "</td><td style='width: 50%;'><a href='" + host + '/product/' + item['slug'] + "'>" + item['title'] + "</a></td>";
-                    html += "<td class='price'>" + simbolCurrency + '&nbsp;' + item['price'] + "</td><td><div><button class='btn_box_number delCountProduct'>&#8212;</button>";
-                    html += "<input type='text' class='box_number' maxlength='3' readonly value='" + item['count'] + "'><button class='btn_box_number addCountProduct'>+</button></div></td>";
-                    html += "<td class='summProduct'>" + simbolCurrency + '&nbsp;' + item['sum'] + "</td>";
-                    html += "<td><span style='cursor: pointer;' class='glyphicon glyphicon-remove text-danger del-item delProductCart' aria-hidden='true'></span></td></tr>";
+                        $('.modal-body tbody').prepend(html);
+                    });
 
-                    $('.modal-body tbody').prepend(html);
-                });
+                    var resultCart = "<th scope='row' colspan='2' >Итоговая сумма</th><td></td>";
+                    resultCart += "<td></td><td class='final_price' style='background: #0280e1;' colspan='2'><span>" + simbolCurrency + '&nbsp;' + data['cart_sum'] + "</span></td>";
 
-                var resultCart = "<th scope='row' colspan='2' >Итоговая сумма</th><td></td>";
-                resultCart += "<td></td><td class='final_price' style='background: #0280e1;' colspan='2'><span>" + simbolCurrency + '&nbsp;' + data['cart_sum'] + "</span></td>";
+                    $('.result_line_catr').html(resultCart);
 
-                $('.result_line_catr').html(resultCart);
-
-                if ($('#countProductCart').attr('class') == 'hidden') {
-                    $('#countProductCart').removeClass('hidden');
-                    $('#countProductCart').html('1');
+                    $('#countProductCart').html(data['cart_count']);
                 } else {
-                    var count = Number($('#countProductCart').html());
-                    count++;
-                    $('#countProductCart').html(count);
+                    $('tbody').html();
+                    var htmlSummCart = "<tr class='result_line_catr' style='background: #b2ff96;'></tr>";
+                    $('tbody').html(htmlSummCart);
+
+                    $.each(data['cart'], function (index, item) {
+                        var html = "<tr data-id='" + item['id'] + "'><td><img src='" + host + "/storage/images/" + item['img'] + "' alt='img' style='width: 60px; '>";
+                        html += "</td><td style='width: 50%;'><a href='" + host + '/product/' + item['slug'] + "'>" + item['title'] + "</a></td>";
+                        html += "<td class='price'>" + simbolCurrency + '&nbsp;' + item['price'] + "</td><td><div><button class='btn_box_number delCountProduct'>&#8212;</button>";
+                        html += "<input type='text' class='box_number' maxlength='3' readonly value='" + item['count'] + "'><button class='btn_box_number addCountProduct'>+</button></div></td>";
+                        html += "<td class='summProduct'>" + simbolCurrency + '&nbsp;' + item['sum'] + "</td>";
+                        html += "<td><span style='cursor: pointer;' class='glyphicon glyphicon-remove text-danger del-item delProductCart' aria-hidden='true'></span></td></tr>";
+
+                        $('tbody').prepend(html);
+                    });
+
+                    var resultCart = "<th scope='row' colspan='2' >Итоговая сумма</th><td></td>";
+                    resultCart += "<td></td><td class='final_price' style='background: #0280e1;' colspan='2'><span>" + simbolCurrency + '&nbsp;' + data['cart_sum'] + "</span></td>";
+
+                    $('.result_line_catr').html(resultCart);
+
+                    $('#countProductCart').html(data['cart_count']);
                 }
 
                 timerId = setTimeout(function () {
-                    if (document.location.pathname == '/order')
+                    if (document.location.pathname == '/orders/create')
                         document.location.reload();
                 }, 2000);
             },

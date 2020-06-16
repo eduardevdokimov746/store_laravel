@@ -2,25 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Extensions\CommentData;
-use App\Extensions\CommentExtension;
-use App\Http\Requests\AddCommentRequest;
+use App\Extensions\UserExtension;
 use App\Mail\ConfirmMail;
-use App\Models\Product;
-use App\Models\ProductInfo;
-use App\Repositories\CommentRepository;
+use App\Mail\CreateOrder;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use App\Services\Comment;
-use App\Models\Comment as ModelComment;
-use App\Extensions\UserExtension;
+use App\Services\Order;
+use App\Models\Order as ModelOrder;
 
-class CommentController extends BaseController
+class OrderController extends BaseController
 {
     public function __construct()
     {
-        $this->middleware('auth')->except(['store', 'index']);
+        $this->middleware('auth')->only('index');
     }
 
     /**
@@ -28,21 +23,11 @@ class CommentController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(CommentRepository $commentRepository, $slug)
+    public function index()
     {
-        $product = Product::where('slug', $slug)->first();
+        $orders = ModelOrder::where('user_id', \Auth::id())->with('products')->get();
 
-        if (is_null($product)) {
-            return abort(404);
-        }
-
-        $comments = $commentRepository->getForShow($product->id, \request()->get('id'));
-
-        $comments->transform(function ($item, $key) {
-            return CommentData::changeForShow($item);
-        });
-
-        return view('comments.index', compact('comments', 'product'));
+        return view('orders.index', compact('orders'));
     }
 
     /**
@@ -52,7 +37,11 @@ class CommentController extends BaseController
      */
     public function create()
     {
-        //
+        if (\Cart::isEmpty()) {
+            return redirect()->route('index');
+        }
+
+        return view('orders.create');
     }
 
     /**
@@ -61,12 +50,10 @@ class CommentController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AddCommentRequest $request)
+    public function store(Request $request)
     {
         if (\Auth::guest()) {
-
             //Если не пользователь авторизован
-
             if(UserExtension::checkExistsWithEmail($request->get('email'))){
                 //Если аккаунт существует
                 return JsonResponse::create('mail_exists', 200);
@@ -82,12 +69,16 @@ class CommentController extends BaseController
             }
         }
 
-        $comment = Comment::add($request);
+        $order = new Order(\Auth::id(), \Cart::getCount(), \Cart::getSum(), \Currency::getCurrentId());
 
-        $comment['type'] = 'success';
-        $comment['name'] = \Auth::user()->name;
+        if ($order_model = $order->add($request)) {
+            $order->addProducts($order_model, \Cart::getProducts());
+            \Mail::to(\Auth::user()->email->email)->send(new CreateOrder(\Cart::getProducts(), \Cart::getSum(), \Cart::getCount()));
+            \Cart::flush();
+            return JsonResponse::create('', 200);
+        }
 
-        return response($comment, 200);
+        return abort(422);
     }
 
     /**
@@ -133,36 +124,5 @@ class CommentController extends BaseController
     public function destroy($id)
     {
         //
-    }
-
-    public function like(Request $request, $comment_id)
-    {
-        $comment = new Comment(\Auth::id(), $comment_id);
-        $comment->like();
-
-        if ($request->wantsJson()) {
-            return response(json_encode(''), 200);
-        }
-
-        return response('', 200);
-    }
-
-    public function dislike(Request $request, $comment_id)
-    {
-        $comment = new Comment(\Auth::id(), $comment_id);
-        $comment->dislike();
-
-        if ($request->wantsJson()) {
-            return response(json_encode(''), 200);
-        }
-
-        return response('', 200);
-    }
-
-    public function profile(CommentRepository $commentRepository)
-    {
-        $comments = $commentRepository->getForProfile(\Auth::id());
-
-        return view('comments.profile', compact('comments'));
     }
 }

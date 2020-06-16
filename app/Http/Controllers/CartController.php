@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Repositories\ProductRepository;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CartController extends BaseController
@@ -15,7 +16,7 @@ class CartController extends BaseController
      */
     public function index()
     {
-        //
+        return view('cart.index');
     }
 
     /**
@@ -34,13 +35,13 @@ class CartController extends BaseController
             $product = $productRepository->getForCart($id);
 
             if (!$product) {
-                return response('error');
+                return JsonResponse::create('error', 422);
             }
 
             \Cart::add($product);
         }
 
-        return response(\Cart::getAll());
+        return JsonResponse::create(\Cart::getAll(), 200);
     }
 
     /**

@@ -66,4 +66,9 @@ class ViewedProduct
     {
         return !$this->provider->empty();
     }
+
+    public function isEmpty()
+    {
+        return $this->provider->empty();
+    }
 }

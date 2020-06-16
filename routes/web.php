@@ -74,9 +74,11 @@ Route::middleware('auth')->group(function () {
     /* Comments routes */
     Route::post('comments/like/{comment_id}', 'CommentController@like')->name('comments.like');
     Route::post('comments/dislike/{comment_id}', 'CommentController@dislike')->name('comments.dislike');
-
+    Route::get('comments/profile', 'CommentController@profile')->name('comments.profile');
 
     /* Comments routes */
+
+    Route::get('viewedproduct', 'ViewedProductController@index')->name('viewedproduct.index');
 });
 
 Route::get('comments/{slug}', 'CommentController@index')->name('comments.index');
@@ -92,9 +94,12 @@ Route::post('comparison/{product_id}', 'ComparisonController@store')->name('comp
 Route::delete('comparison/{id}', 'ComparisonController@delete')->name('comparison.delete');
 Route::get('comparison/{slug}', 'ComparisonController@show')->name('comparison.show');
 
+Route::resource('orders', 'OrderController')->names('orders');
+
 Route::get('mail', function () {
    return new \App\Mail\CommentResponse(\App\Models\ResponseComment::find(11));
 });
+
 
 // ADMIN PANEL
 

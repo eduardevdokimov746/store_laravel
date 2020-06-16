@@ -65,12 +65,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     @auth
                         <!--Список у авторизованного пользователя -->
                             <li><a href="{{ route('profile.show') }}">Личные данные</a></li>
-                            <li><a href="/profile/desires">Список желаний</a></li>
-                            <li><a href="/comparison">Список сравнений</a></li>
-                            <li><a href="/profile/cart">Корзина</a></li>
-                            <li><a href="/order/my">Мои заказы</a></li>
-                            <li><a href="/profile/comments">Мои отзывы</a></li>
-                            <li><a href="/profile/viewed">Просмотренные товары</a></li>
+                            <li><a href="{{ route('wishlists.index') }}">Список желаний</a></li>
+                            <li><a href="{{ route('comparison.index') }}">Список сравнений</a></li>
+                            <li><a href="{{ route('cart.index') }}">Корзина</a></li>
+                            <li><a href="{{ route('orders.index') }}">Мои заказы</a></li>
+                            <li><a href="{{ route('comments.profile') }}">Мои отзывы</a></li>
+                            <li><a href="{{ route('viewedproduct.index') }}">Просмотренные товары</a></li>
                             <li><a href="{{ route('logout') }}">Выход</a></li>
                     @else
                         <!--Если не авторизованный пользователь -->

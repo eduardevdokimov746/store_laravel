@@ -62,7 +62,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Продолжить покупки</button>
                 <button type="button" class="btn btn-danger clearCart {{ Cart::isEmpty() ? 'hidden' : '' }}">Очистить корзину</button>
-                <a href='' type="button" class="btn btn-primary {{ Cart::isEmpty() ? 'hidden' : '' }} btn_addOrder">Оформить заказ</a>
+                <a href='{{ route('orders.create') }}' type="button" class="btn btn-primary {{ Cart::isEmpty() ? 'hidden' : '' }} btn_addOrder">Оформить заказ</a>
             </div>
         </div>
 

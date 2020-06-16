@@ -28,6 +28,11 @@ class Currency
         return $currencies;
     }
 
+    public function getCurrentId()
+    {
+        return $this->getCurrent()->id;
+    }
+
     public function getCurrent()
     {
         if ($this->hasCookie()) {
@@ -98,10 +103,19 @@ class Currency
         return (bool) $this->current->base;
     }
 
-    public function getSymbol()
+    public function getSymbol($code = null)
     {
-        $symbol = config('custom.symbols_currency.' . $this->code);
+        if ($code) {
+            $symbol = config('custom.symbols_currency.' . $code);
+        } else {
+            $symbol = config('custom.symbols_currency.' . $this->code);
+        }
 
         return $symbol;
+    }
+
+    public function get($id)
+    {
+        return $this->all->find($id);
     }
 }
