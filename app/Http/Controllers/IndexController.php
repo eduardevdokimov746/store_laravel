@@ -16,7 +16,8 @@ class IndexController extends BaseController
 {
     public function __invoke(CategoryRepository $categoryRepository)
     {
-
+      // return \Session::forget(['multi_image', 'single_image']);
+       //return \Auth::logout();
 
         //dd(Comment::selectRaw('SUM(`rating`) as sum, COUNT(`rating`) as count')->where('product_id', 2)->first());
 

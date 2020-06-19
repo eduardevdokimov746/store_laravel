@@ -7,7 +7,7 @@ use App\Scopes\ProductScope;
 
 class Product extends Model
 {
-    protected $fillable = ['title', 'price', 'old_price', 'img'];
+    protected $fillable = ['title', 'category_id', 'slug', 'price', 'old_price', 'img', 'hit', 'is_published', 'new'];
 
     protected static function booted()
     {
@@ -36,5 +36,10 @@ class Product extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class, 'product_id', 'id');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 }

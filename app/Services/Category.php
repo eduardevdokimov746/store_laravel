@@ -180,6 +180,19 @@ class Category
         return collect($this->categories)->pluck('parent_id', 'id')->get($id);
     }
 
+    public function getAllChild()
+    {
+        $result = [];
+
+        foreach($this->categories as $category_id => $category) {
+            if (!$this->hasChild($category_id)) {
+                $result[$category_id] = $category;
+            }
+        }
+
+        return $result;
+    }
+
     public function flush()
     {
         \Cache::forget($this->cacheName);

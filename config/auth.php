@@ -50,6 +50,11 @@ return [
         'custom' => [
             'driver' => 'custom',
             'provider' => 'custom_provider'
+        ],
+
+        'admin_custom' => [
+            'driver' => 'admin_custom',
+            'provider' => 'admin_custom_provider'
         ]
     ],
 
@@ -83,6 +88,10 @@ return [
 
         'custom_provider' => [
             'driver' => 'custom_provider'
+        ],
+
+        'admin_custom_provider' => [
+            'driver' => 'admin_custom_provider'
         ]
     ],
 

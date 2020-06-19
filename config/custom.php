@@ -19,4 +19,10 @@ return [
     'data_id_carusel_index_page' => [
         'home', 'carl', 'james', 'decor'
     ],
+
+    'admin' => [
+        'view_count_orders' => 20,
+        'view_count_users' => 20,
+        'view_count_products' => 20
+    ]
 ];

@@ -36,6 +36,36 @@ Route::namespace('Auth')->group(function () {
     Route::post('confirm/mail/send', 'ConfirmEmailController@sendDublicateMail');
 });
 
+Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function () {
+    Route::namespace('Auth')->group(function () {
+        Route::get('login', 'LoginController@showLoginForm')->name('login');
+        Route::post('login', 'LoginController@login');
+        Route::get('logout', 'LoginController@logout')->name('logout');
+    });
+
+    Route::middleware('admin.auth')->group(function () {
+        Route::get('/', 'IndexController@index')->name('index');
+
+        Route::resource('categories', 'CategoryController')->names('categories');
+        Route::get('categories/destroy/{id}', 'CategoryController@destroy')->name('categories.destroy');
+        Route::resource('orders', 'OrderController')->names('orders');
+        Route::get('orders/delete/{id}', 'OrderController@destroy')->name('orders.delete');
+        Route::get('orders/update/{id}', 'OrderController@update')->name('orders.update');
+        Route::resource('users', 'UserController')->names('users');
+        Route::resource('products', 'ProductController')->names('products');
+        Route::get('products/destroy/{id}', 'ProductController@destroy')->name('products.destroy');
+        Route::resource('chats', 'ChatController')->names('chats');
+        Route::resource('cache', 'CacheController')->names('cache');
+        Route::resource('currencies', 'CurrencyController')->names('currencies');
+
+        Route::post('images/single', 'ImageProductController@single');
+        Route::post('images/multi', 'ImageProductController@multi');
+    });
+});
+
+
+
+
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/changecurrency', 'CurrencyController@change')->name('changeCurrency');

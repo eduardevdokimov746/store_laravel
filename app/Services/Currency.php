@@ -28,6 +28,12 @@ class Currency
         return $currencies;
     }
 
+    public function flush()
+    {
+        \Cookie::queue(\Cookie::forget('currency'));
+        \Cache::forget('currencies');
+    }
+
     public function getCurrentId()
     {
         return $this->getCurrent()->id;

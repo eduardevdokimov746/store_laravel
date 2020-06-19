@@ -74,4 +74,14 @@ class User extends Authenticatable
     {
         return \DB::table('password_resets')->where('email', $this->email->email)->value('token');
     }
+
+    public function getIsAdminAttribute()
+    {
+        return $this->attributes['role'] == 'admin' ? true : false;
+    }
+
+    public function getDateRegistrationAttribute()
+    {
+        return $this->created_at->isoFormat('D MMMM Y');
+    }
 }

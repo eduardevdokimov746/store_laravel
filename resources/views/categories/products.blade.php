@@ -30,7 +30,7 @@
                                         </a>
                                         <div class="agile-product-text">
                                             <h5 style="overflow: hidden; height: 50px;">
-                                                <a href="{{ route('products.index', $product->slug) }}" title='{{ $product->title }}'>{{ $product->small_title }}</a>
+                                                <a href="{{ route('products.show', $product->slug) }}" title='{{ $product->title }}'>{{ $product->small_title }}</a>
                                             </h5>
                                             <h6 style="font-size: 1.5em;">{!!$symbolCurrency !!}&nbsp;{{ $product->price }}&nbsp;
                                                 @if($product->old_price != 0)

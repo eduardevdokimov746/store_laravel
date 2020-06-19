@@ -197,4 +197,21 @@ class ProductRepository extends CoreRepository
             ->whereIn('products.id', $product_ids)
             ->get();
     }
+
+    public function getAllWithPagination($count_product)
+    {
+        $select = [
+            'products.id',
+            'products.category_id',
+            'products.title',
+            'products.price',
+            'products.is_published'
+        ];
+
+        return $this->startConditions()
+            ->select($select)
+            ->with('category:id,title')
+            ->orderBy('id')
+            ->paginate($count_product);
+    }
 }

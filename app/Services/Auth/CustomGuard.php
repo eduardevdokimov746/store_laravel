@@ -11,7 +11,7 @@ use App\Models\User;
 class CustomGuard implements StatefulGuard
 {
     protected $user = null;
-    private $auth = false;
+    protected $auth = false;
     protected $provider;
     protected $isRemember = false;
 

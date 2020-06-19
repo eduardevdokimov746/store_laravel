@@ -21,7 +21,12 @@ class Breadcrumbs
         $categories = \Category::getAll();
         foreach ($categories as $key => $value) {
             if(isset($categories[$id])){
-                $result[] = ['title' => $categories[$id]['title'], 'slug' => $categories[$id]['slug']];
+
+                if (\Category::hasChild($id)) {
+                    $result[] = ['title' => $categories[$id]['title'], 'slug' => $categories[$id]['slug'], 'child' => false];
+                } else {
+                    $result[] = ['title' => $categories[$id]['title'], 'slug' => $categories[$id]['slug'], 'child' => true];
+                }
                 $id = $categories[$id]['parent_id'];
             }else break;
         }
@@ -42,7 +47,11 @@ class Breadcrumbs
         foreach ($this->path as $item) {
             if($this->lastItem == $item['title']) continue;
 
-            $html .= "<li><a href='" . route('categories.show', $item['slug']) . "'>" . $item['title'] . "</a></li>";
+            if ($item['child']) {
+                $html .= "<li><a href='" . route('categories.products', $item['slug']) . "'>" . $item['title'] . "</a></li>";
+            } else {
+                $html .= "<li><a href='" . route('categories.show', $item['slug']) . "'>" . $item['title'] . "</a></li>";
+            }
         }
         $html .= $last;
 

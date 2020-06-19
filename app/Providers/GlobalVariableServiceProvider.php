@@ -24,5 +24,6 @@ class GlobalVariableServiceProvider extends ServiceProvider
     public function boot()
     {
         \View::share('symbolCurrency', \Currency::getSymbol());
+        \View::share('admin_source', 'adminLTE');
     }
 }

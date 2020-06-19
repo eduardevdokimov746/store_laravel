@@ -1,0 +1,94 @@
+.list-group.list-group-root {
+    padding: 0;
+    overflow: hidden;
+}
+
+.list-group, .list-group.list-group-root > p .list-group {
+    margin-bottom: 0;
+}
+
+.list-group.list-group-root .list-group-item {
+    border-radius: 0;
+    border-width: 1px 0 0 0;
+}
+
+.list-group.list-group-root > .list-group-item:first-child {
+    border-top-width: 0;
+}
+
+.list-group.list-group-root > .list-group > p > .list-group-item {
+    padding-left: 30px;
+}
+
+.list-group.list-group-root > .list-group > .list-group > p > .list-group-item {
+    padding-left: 45px;
+}
+.item-p{
+    margin: 0;
+    position: relative;
+}
+.item-p > span{
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+#reset-filter{
+    background-color: #dd4b39;
+    border-color: #d73925;
+    color: #fff;
+}
+
+.overlay{
+    display: none;
+}
+
+.chat > ul{
+    list-style: none;
+}
+
+.chat > ul > li{
+    margin-bottom: 20px;
+    clear: both;
+    width: 100%;
+    float: left;
+}
+
+.my-msg{
+    max-width: 400px;
+    padding: 7px;
+    border-radius: 5px;
+    background: white;
+    border: 1px solid #d0d0d0;
+    display: inline-block;
+    float: right;
+}
+
+.my-msg-date{
+    float: left;
+}
+
+.your-msg{
+    max-width: 400px;
+    display: inline-block;
+    padding: 7px;
+    border-radius: 5px;
+    background: white;
+    border: 1px solid #d0d0d0;
+    float: left;
+}
+
+.your-msg-date{
+    float: right;
+}
+
+.chat > ul > .notice-msg{
+    text-align: center;
+}
+
+.chat > ul > .notice-write{
+    text-align: left;
+}
+
+.chat > ul > .notice-write img{
+    width: 15px;
+}
