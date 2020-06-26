@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserConnected;
 use App\Models\Comment;
 use App\Models\Email;
 use App\Models\User;
@@ -16,7 +17,9 @@ class IndexController extends BaseController
 {
     public function __invoke(CategoryRepository $categoryRepository)
     {
-      // return \Session::forget(['multi_image', 'single_image']);
+       // return event(new UserConnected('sad', 'sdasd'));
+
+        // return \Session::forget(['multi_image', 'single_image']);
        //return \Auth::logout();
 
         //dd(Comment::selectRaw('SUM(`rating`) as sum, COUNT(`rating`) as count')->where('product_id', 2)->first());

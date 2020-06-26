@@ -56,14 +56,23 @@ Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function () {
         Route::get('products/destroy/{id}', 'ProductController@destroy')->name('products.destroy');
         Route::resource('chats', 'ChatController')->names('chats');
         Route::resource('cache', 'CacheController')->names('cache');
-        Route::resource('currencies', 'CurrencyController')->names('currencies');
+        Route::get('cache/clear/{key}', 'CacheController@clear')->name('cache.clear');
 
         Route::post('images/single', 'ImageProductController@single');
         Route::post('images/multi', 'ImageProductController@multi');
     });
+
+
+
 });
 
+//Chat
 
+Route::get('chats/connected-user', 'Admin\ChatController@connectedUser');
+Route::get('chats', 'Admin\ChatController@index')->name('admin.chats.index');
+Route::post('chats/message', 'Admin\ChatController@message');
+
+//Chat
 
 
 Route::get('/home', 'HomeController@index')->name('home');

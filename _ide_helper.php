@@ -3,7 +3,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 7.15.0 on 2020-06-14 09:52:17.
+ * Generated for Laravel 7.16.1 on 2020-06-21 06:37:46.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -15118,6 +15118,28 @@ namespace App\Facades {
          *
          * @static 
          */ 
+        public static function flush()
+        {
+                        /** @var \App\Services\Currency $instance */
+                        return $instance->flush();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getCurrentId()
+        {
+                        /** @var \App\Services\Currency $instance */
+                        return $instance->getCurrentId();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
         public static function getCurrent()
         {
                         /** @var \App\Services\Currency $instance */
@@ -15184,10 +15206,21 @@ namespace App\Facades {
          *
          * @static 
          */ 
-        public static function getSymbol()
+        public static function getSymbol($code = null)
         {
                         /** @var \App\Services\Currency $instance */
-                        return $instance->getSymbol();
+                        return $instance->getSymbol($code);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function get($id)
+        {
+                        /** @var \App\Services\Currency $instance */
+                        return $instance->get($id);
         }
          
     }
@@ -15251,6 +15284,17 @@ namespace App\Facades {
         {
                         /** @var \App\Services\Cart $instance */
                         return $instance->isEmpty();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function isNotEmpty()
+        {
+                        /** @var \App\Services\Cart $instance */
+                        return $instance->isNotEmpty();
         }
         
         /**
@@ -15391,6 +15435,17 @@ namespace App\Facades {
         {
                         /** @var \App\Services\ViewedProduct $instance */
                         return $instance->isNotEmpty();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function isEmpty()
+        {
+                        /** @var \App\Services\ViewedProduct $instance */
+                        return $instance->isEmpty();
         }
          
     }
@@ -15571,10 +15626,21 @@ namespace App\Facades {
          *
          * @static 
          */ 
-        public static function getComparison($category_id, $productRepository)
+        public static function getCategoryId($category_id)
         {
                         /** @var \App\Services\Comparison $instance */
-                        return $instance->getComparison($category_id, $productRepository);
+                        return $instance->getCategoryId($category_id);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getComparison($products)
+        {
+                        /** @var \App\Services\Comparison $instance */
+                        return $instance->getComparison($products);
         }
          
     }
@@ -15728,6 +15794,17 @@ namespace App\Facades {
         {
                         /** @var \App\Services\Category $instance */
                         return $instance->getParentId($id);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getAllChild()
+        {
+                        /** @var \App\Services\Category $instance */
+                        return $instance->getAllChild();
         }
         
         /**
@@ -17717,7 +17794,7 @@ namespace  {
             }
          
             /**
-             * Execute a callback over each item while chunking by id.
+             * Execute a callback over each item while chunking by ID.
              *
              * @param callable $callback
              * @param int $count

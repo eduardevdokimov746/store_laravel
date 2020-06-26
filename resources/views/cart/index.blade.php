@@ -1,4 +1,4 @@
-@extends('layouts.app.main')
+@extends('layouts.app.app')
 
 @section('content')
     <div class='container'>
@@ -29,7 +29,7 @@
                 <td>
                     <div>
                         <button class='btn_box_number delCountProduct'>&#8212;</button>
-                        <input type='text' class='box_number' readonly maxlength='3' value='<?= $item['count'] ?>'>
+                        <input type='text' class='box_number' readonly maxlength='3' value='{{ $item['count'] }}'>
                         <button class='btn_box_number addCountProduct'>+</button>
                     </div>
                 </td>
@@ -61,3 +61,4 @@
     </div>
 
 @endsection
+

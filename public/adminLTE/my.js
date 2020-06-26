@@ -1,12 +1,17 @@
-
-$('.delete').click(function(){
+$('.delete').click(function () {
     var res = confirm('Подтвердите действие');
-    if(!res) return false;
+    if (!res) return false;
 });
 
-$('.del-item').on('click', function(){
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+
+$('.del-item').on('click', function () {
     var res = confirm('Подтвердите действие');
-    if(!res) return false;
+    if (!res) return false;
     var $this = $(this),
         id = $this.data('id'),
         src = $this.data('src');
@@ -14,39 +19,39 @@ $('.del-item').on('click', function(){
         url: adminpath + '/product/delete-gallery',
         data: {id: id, src: src},
         type: 'POST',
-        beforeSend: function(){
-            $this.closest('.file-upload').find('.overlay').css({'display':'block'});
+        beforeSend: function () {
+            $this.closest('.file-upload').find('.overlay').css({'display': 'block'});
         },
-        success: function(res){
-            setTimeout(function(){
-                $this.closest('.file-upload').find('.overlay').css({'display':'none'});
-                if(res == 1){
+        success: function (res) {
+            setTimeout(function () {
+                $this.closest('.file-upload').find('.overlay').css({'display': 'none'});
+                if (res == 1) {
                     $this.fadeOut();
                 }
             }, 1000);
         },
-        error: function(){
-            setTimeout(function(){
-                $this.closest('.file-upload').find('.overlay').css({'display':'none'});
+        error: function () {
+            setTimeout(function () {
+                $this.closest('.file-upload').find('.overlay').css({'display': 'none'});
                 alert('Ошибка');
             }, 1000);
         }
     });
 });
 
-$('.sidebar-menu a').each(function(){
+$('.sidebar-menu a').each(function () {
     var location = window.location.protocol + '//' + window.location.host + window.location.pathname;
     var link = this.href;
-    if(link == location){
+    if (link == location) {
         $(this).parent().addClass('active');
         $(this).closest('.treeview').addClass('active');
     }
 });
 
 // CKEDITOR.replace('editor1');
-$( '.editor' ).ckeditor();
+$('.editor').ckeditor();
 
-$('#reset-filter').click(function(){
+$('#reset-filter').click(function () {
     $('#filter input[type=radio]').prop('checked', false);
     return false;
 });
@@ -74,29 +79,28 @@ $(".select2").select2({
 });
 
 
-
-if($('div').is('#single')){
+if ($('div').is('#single')) {
     var buttonSingle = $("#single"),
         buttonMulti = $("#multi"),
         file;
 }
 
-if(buttonSingle){
+if (buttonSingle) {
 
     new AjaxUpload(buttonSingle, {
         action: adminpath + '/' + buttonSingle.data('url'),
         data: {name: buttonSingle.data('name')},
         name: buttonSingle.data('name'),
-        onSubmit: function(file, ext){
-            if (! (ext && /^(jpg|png|jpeg|gif)$/i.test(ext))){
+        onSubmit: function (file, ext) {
+            if (!(ext && /^(jpg|png|jpeg|gif)$/i.test(ext))) {
                 alert('Ошибка! Разрешены только картинки');
                 return false;
             }
-            buttonSingle.closest('.file-upload').find('.overlay').css({'display':'block'});
+            buttonSingle.closest('.file-upload').find('.overlay').css({'display': 'block'});
         },
-        onComplete: function(file, response){
-            setTimeout(function(){
-                buttonSingle.closest('.file-upload').find('.overlay').css({'display':'none'});
+        onComplete: function (file, response) {
+            setTimeout(function () {
+                buttonSingle.closest('.file-upload').find('.overlay').css({'display': 'none'});
                 var data = response.match(/{\S+}/);
                 response = JSON.parse(data);
                 console.log(response);
@@ -106,154 +110,175 @@ if(buttonSingle){
     });
 }
 
-if(buttonMulti){
+if (buttonMulti) {
     new AjaxUpload(buttonMulti, {
         action: adminpath + '/' + buttonMulti.data('url'),
         data: {name: buttonMulti.data('name')},
         name: buttonMulti.data('name'),
-        onSubmit: function(file, ext){
-            if (! (ext && /^(jpg|png|jpeg|gif)$/i.test(ext))){
+        onSubmit: function (file, ext) {
+            if (!(ext && /^(jpg|png|jpeg|gif)$/i.test(ext))) {
                 alert('Ошибка! Разрешены только картинки');
                 return false;
             }
-            buttonMulti.closest('.file-upload').find('.overlay').css({'display':'block'});
+            buttonMulti.closest('.file-upload').find('.overlay').css({'display': 'block'});
 
         },
-        onComplete: function(file, response){
-            setTimeout(function(){
-                buttonMulti.closest('.file-upload').find('.overlay').css({'display':'none'});
+        onComplete: function (file, response) {
+            setTimeout(function () {
+                buttonMulti.closest('.file-upload').find('.overlay').css({'display': 'none'});
                 console.log(response);
                 var data = response.match(/{\S+}/);
                 response = JSON.parse(data);
                 console.log(response);
-                $('.' + buttonMulti.data('name')).append("<img src='" + host + "/storage/" + response.file +  "' style='max-height: 150px;'>");
+                $('.' + buttonMulti.data('name')).append("<img src='" + host + "/storage/" + response.file + "' style='max-height: 150px;'>");
             }, 1000);
         }
     });
 }
 
-$('#add').on('submit', function(){
-     // if(!isNumeric( $('#category_id').val() )){
-     //     alert('Выберите категорию');
-     //     return false;
-     // }
+$('#add').on('submit', function () {
+    // if(!isNumeric( $('#category_id').val() )){
+    //     alert('Выберите категорию');
+    //     return false;
+    // }
 });
 
-$('#table-chats-admin-panel tr').click(function(){
+function startSocket(hash) {
+    setVar('tim', '');
+
+    Echo.private('chat.' + hash).listen('MessageChat', function (data) {
+        if (data.user == 'client') {
+            $('#block-chat-user .chat .notice-write').remove();
+            addMsgAdmin(data.message, data.time, 'yourMsg');
+        }
+    })
+        .listenForWhisper('writing', (e) => {
+            clearTimeout(window.tim);
+
+            if (!$('#block-chat-user .chat  .notice-write').length) {
+                addMsgAdmin('', '', 'write');
+            }
+
+            window.tim = setTimeout(function () {
+                $('#block-chat-user .chat .notice-write').remove();
+            }, 2000);
+
+        }).listenForWhisper('connected', function () {
+
+        addMsgAdmin('Клиент подключен к чату!', '', 'info');
+
+    }).listenForWhisper('disconnect', function () {
+        addMsgAdmin('Клиент отключился от чата!', '', 'info');
+    });
+
+    setTimeout(function () {
+        Echo.private('chat.' + hash).whisper('connected', {});
+    }, 500);
+}
+
+$('#table-chats-admin-panel tbody').on('click', 'tr', function (e) {
     var hash = $(this).data('hash');
-    document.location = adminpath + '/chat/view?chat=' + hash;
+    document.location = adminpath + '/chats/' + hash;
 });
 
+function setVar(varName, varValue) {
+    window[varName] = varValue;
+}
 
-var sock;
-var tim;
-
-
-$('#block-chat-user button[id=connect]').click(function(){
-    if($(this).is('.active'))
+$('#block-chat-user button[id=connect]').click(function () {
+    if ($(this).is('.active'))
         return;
 
     $(this).addClass('active');
+
     $('#block-chat-user button[id=disconnect]').removeClass('active');
 
     var hash = $('#block-chat-user .chat').data('hash');
 
-    var socket = new WebSocket("ws://" + sytename + ':7000');
-    sock = socket;
+    setVar('chat_hash', hash);
 
-    socket.onopen = function() {
-        addMsgAdmin('Консультант ' + adminName + ' подключился к чату!', '', 'info');
-        var data = JSON.stringify({'hash': hash, 'from': 'admin', 'type': 'connect', 'name': adminName, 'admin_id': adminId});
-        socket.send(data);
-    };
-
-    socket.onclose = function(event) {
-        if (event.wasClean) {
-            console.log('Соединение закрыто чисто');
-        } else {
-            alert('Обрыв соединения'); // например, "убит" процесс сервера
-        }
-    };
-
-    socket.onmessage = function(event) {
-        var data = JSON.parse(event.data);
-        if(data.type == 'info'){
-            addMsgAdmin(data.msg, data.time, 'info');
-        }else if(data.type == 'msg'){
-            addMsgAdmin(data.msg, data.time, 'yourMsg');
-        }else if(data.type == 'write'){
-            clearTimeout(tim);
-            if(!$('#block-chat-user .chat  .notice-write').length){
-                addMsgAdmin('', '', 'write');
-            }
-            tim = setTimeout(function(){
-                $('#block-chat-user .chat .notice-write').remove();
-            }, 2000);
-        }
-
-    };
-
-    socket.onerror = function(error) {
-        alert("Ошибка " + error.message);
-    };
+    startSocket(hash);
 });
 
-$('#block-chat-user button[id=disconnect]').click(function(){
-    if($(this).is('.active'))
+$('#block-chat-user button[id=disconnect]').click(function () {
+    if ($(this).is('.active'))
         return;
 
     $(this).addClass('active');
     $('#block-chat-user button[id=connect]').removeClass('active');
-    addMsgAdmin('Консультант ' + adminName + ' отключен от чата!', getTime(), 'info');
-    sock.close();
+    addMsgAdmin('Консультант отключен от чата!', getTime(), 'info');
+
+    Echo.private('chat.' + window.chat_hash).whisper('disconnect', {});
+    Echo.leave('chat.' + window.chat_hash);
 });
 
-$('#block-chat-user .box-footer #field-msg').keyup(function(e){
-   if(e.keyCode == 13){
-       var msg = $('#block-chat-user .box-footer #field-msg').val();
-       if(msg.match(/^\s*$/))
-           return;
-       $('#block-chat-user .box-footer #field-msg').val('');
-       var data = JSON.stringify({'from': 'admin', 'msg': msg, 'type': 'msg', 'name': adminName});
-       addMsgAdmin(msg, getTime(), 'myMsg');
-       sock.send(data);
-   }else{
-       var data = JSON.stringify({'from': 'admin', 'type': 'write'});
-       sock.send(data);
-   }
+$('#block-chat-user .box-footer #field-msg').keyup(function (e) {
+
+    if (e.keyCode == 13) {
+        //Нажали enter
+        var msg = $('#block-chat-user .box-footer #field-msg').val();
+        if (msg.match(/^\s*$/))
+            return;
+
+        $('#block-chat-user .box-footer #field-msg').val('');
+
+        addMsgAdmin(msg, getTime(), 'myMsg');
+
+        $.post({
+            url: host + '/chats/message',
+            data: {hash: window.chat_hash, user_name: 'admin', message: msg, user: 'admin'},
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        });
+    } else {
+        Echo.private('chat.' + window.chat_hash).whisper('writing', {});
+    }
+
 });
 
 
-$('#send-new-msg-admin-panel').click(function(e){
-    e.preventDefault();
+$('#send-new-msg-admin-panel').click(function (e) {
     var msg = $('#block-chat-user .box-footer #field-msg').val();
-    if(msg.match(/^\s*$/))
+    if (msg.match(/^\s*$/))
         return;
+
     $('#block-chat-user .box-footer #field-msg').val('');
-    var data = JSON.stringify({'from': 'admin', 'msg': msg, 'type': 'msg', 'name': adminName});
+
     addMsgAdmin(msg, getTime(), 'myMsg');
-    sock.send(data);
+
+    $.post({
+        url: host + '/chats/message',
+        data: {hash: window.chat_hash, user_name: 'admin', message: msg, user: 'admin'},
+        success: function (data) {
+            console.log(data);
+        },
+        error: function (e) {
+            console.log(e);
+        }
+    });
 });
 
 
-
-function addMsgAdmin(msg, date, type)
-{
-    if(type == 'info'){
+function addMsgAdmin(msg, date, type) {
+    if (type == 'info') {
         var html = '';
-        html += "<li class='notice-msg'><p>"+msg+"</p></li>";
+        html += "<li class='notice-msg'><p>" + msg + "</p></li>";
         $('#block-chat-user .chat ul').append(html);
 
-    }else if(type == 'myMsg'){
+    } else if (type == 'myMsg') {
         var html = '';
-        html = "<li><div class='my-msg'>"+msg+"</div><span class='my-msg-date'>"+date+"</span></li>";
+        html = "<li><div class='my-msg'>" + msg + "</div><span class='my-msg-date'>" + date + "</span></li>";
         $('#block-chat-user .chat ul').append(html);
-    }else if(type == 'yourMsg'){
+    } else if (type == 'yourMsg') {
         var html = '';
-        html = "<li><div class='your-msg'>"+msg+"</div><span class='your-msg-date'>"+date+"</span></li>";
+        html = "<li><div class='your-msg'>" + msg + "</div><span class='your-msg-date'>" + date + "</span></li>";
         $('#block-chat-user .chat ul').append(html);
-    }else if(type == 'write'){
-        var html = "<li class='notice-write'><p>Пользователь набирает сообщение <img src='http://"+sytename+"/images/827.svg' alt=''></p></li>";
+    } else if (type == 'write') {
+        var html = "<li class='notice-write'><p>Пользователь набирает сообщение <img src='" + host + "/storage/images/827.svg' alt=''></p></li>";
         $('#block-chat-user .chat ul').append(html);
     }
     var block = $('#block-chat-user .chat ul')[0];
@@ -267,8 +292,7 @@ function isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
-function getTime()
-{
+function getTime() {
     var objDate = new Date();
     var hour = objDate.getHours().toString();
     var minut = objDate.getMinutes().toString();

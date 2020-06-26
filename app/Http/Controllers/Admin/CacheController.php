@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Services\Filter;
 use Illuminate\Http\Request;
 
 class CacheController extends Controller
@@ -14,7 +15,24 @@ class CacheController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.cache.index');
+    }
+
+    public function clear($item)
+    {
+        switch ($item) {
+            case ('currencies') :
+                \Currency::flush();
+                break;
+            case ('categories') :
+                \Category::flush();
+                break;
+            case ('filters') :
+                Filter::clearCache();
+                break;
+        }
+
+        return back()->with(['success' => 'Кеш успешно очищен']);
     }
 
     /**

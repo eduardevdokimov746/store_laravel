@@ -909,18 +909,6 @@ $(document).ready(function () {
             }
         });
     });
-
-    $('.widget-chat button').click(function () {
-        $('.widget-chat-modal').removeClass('hidden');
-        $('.widget-chat').addClass('hidden');
-    });
-
-    $('.widget-chat-modal .head i').click(function () {
-        $('.widget-chat-modal').addClass('hidden');
-        $('.widget-chat').removeClass('hidden');
-    });
-
-
 });
 
 

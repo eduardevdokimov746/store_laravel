@@ -7,14 +7,13 @@ class Filter
     protected $category_id;
     protected $request;
     protected $cache_name_prefix = 'filter_cache';
-    protected $cache_name;
+    protected static $cache_name;
     protected $cache_expired = 10080;
     protected $groups;
     protected $groups_values;
 
     public function __construct($request, $category_id)
     {
-
         $this->request = $request;
         $this->category_id = $category_id;
         $this->init();
@@ -22,7 +21,7 @@ class Filter
 
     protected function init()
     {
-        $this->cache_name = $this->getCacheName();
+        self::$cache_name = $this->getCacheName();
         $this->setData();
     }
 
@@ -30,7 +29,7 @@ class Filter
     {
         $this->clearCache();
 
-        $filter_data = \Cache::remember($this->cache_name, $this->cache_expired, function () {
+        $filter_data = \Cache::remember(self::$cache_name, $this->cache_expired, function () {
             $cache['groups'] = $this->getGroupsDb();
             $cache['groups_values'] = $this->getGroupsValuesDb();
             return $cache;
@@ -111,10 +110,10 @@ class Filter
             $product_ids_filtered = $this->getProductIdFromFilter($filters_id, $countGroup);
 
             $result = $productRepository->getWhereCategoriesWithFilter(
-                $this->category_id, 
-                $sort, 
+                $this->category_id,
+                $sort,
                 $product_ids_filtered);
-            
+
         } else {
             $result = $productRepository->getWhereCategories($this->category_id, $sort);
         }
@@ -189,8 +188,8 @@ class Filter
         return \Category::isNotebook($this->category_id);
     }
 
-    public function clearCache()
+    public static function clearCache()
     {
-        \Cache::forget($this->cache_name);
+        \Cache::forget(self::$cache_name);
     }
 }

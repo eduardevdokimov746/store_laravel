@@ -31,7 +31,7 @@ class LoginController extends BaseLoginController
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = 'admin';
 
     /**
      * Create a new controller instance.
@@ -108,7 +108,7 @@ class LoginController extends BaseLoginController
 
         return $request->wantsJson()
             ? new Response('', 204)
-            : redirect('/');
+            : redirect('admin');
     }
 
     /**

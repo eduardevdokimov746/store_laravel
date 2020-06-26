@@ -22,7 +22,8 @@
     </div>
 
     <div class="field-msg hidden">
-        <input type="text" placeholder="Сообщение..."><button>
+        <input type="text" placeholder="Сообщение...">
+        <button>
             <i class="fas fa-angle-right"></i>
         </button>
     </div>

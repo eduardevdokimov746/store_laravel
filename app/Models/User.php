@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'password',
+        'name', 'password', 'role'
     ];
 
     /**
@@ -83,5 +83,10 @@ class User extends Authenticatable
     public function getDateRegistrationAttribute()
     {
         return $this->created_at->isoFormat('D MMMM Y');
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'user_id', 'id');
     }
 }

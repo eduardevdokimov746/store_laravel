@@ -3,14 +3,15 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="shortcut icon" href="{{ asset('storage/images/images/favicon1.png') }}" type="image/png" />
+    <link rel="shortcut icon" href="{{ asset('storage/images/images/favicon1.png') }}" type="image/png"/>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
     <link rel="stylesheet" href="{{ asset($admin_source . '/bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset($admin_source . '/bower_components/select2/dist/css/select2.min.css') }}">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="{{ asset($admin_source . '/bower_components/font-awesome/css/font-awesome.min.css') }}">
+    <link rel="stylesheet"
+          href="{{ asset($admin_source . '/bower_components/font-awesome/css/font-awesome.min.css') }}">
     <!-- Ionicons -->
     <link rel="stylesheet" href="{{ asset($admin_source . '/bower_components/Ionicons/css/ionicons.min.css') }}">
     <!-- Theme style -->
@@ -18,7 +19,7 @@
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="{{ asset($admin_source . '/dist/css/skins/_all-skins.min.css') }}">
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -28,7 +29,8 @@
     <![endif]-->
 
     <!-- Google Font -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
     <link rel='stylesheet' href='{{ asset($admin_source . '/my.css') }}'>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -63,7 +65,8 @@
                                     <li><!-- start message -->
                                         <a href="#">
                                             <div class="pull-left">
-                                                <img src="{{ asset($admin_source  . '/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
+                                                <img src="{{ asset($admin_source  . '/dist/img/user2-160x160.jpg') }}"
+                                                     class="img-circle" alt="User Image">
                                             </div>
                                             <h4>
                                                 Support Team
@@ -76,7 +79,8 @@
                                     <li>
                                         <a href="#">
                                             <div class="pull-left">
-                                                <img src="{{ asset($admin_source . '/dist/img/user3-128x128.jpg') }}" class="img-circle" alt="User Image">
+                                                <img src="{{ asset($admin_source . '/dist/img/user3-128x128.jpg') }}"
+                                                     class="img-circle" alt="User Image">
                                             </div>
                                             <h4>
                                                 AdminLTE Design Team
@@ -88,7 +92,8 @@
                                     <li>
                                         <a href="#">
                                             <div class="pull-left">
-                                                <img src="{{ asset($admin_source . '/dist/img/user4-128x128.jpg') }}'" class="img-circle" alt="User Image">
+                                                <img src="{{ asset($admin_source . '/dist/img/user4-128x128.jpg') }}'"
+                                                     class="img-circle" alt="User Image">
                                             </div>
                                             <h4>
                                                 Developers
@@ -100,7 +105,8 @@
                                     <li>
                                         <a href="#">
                                             <div class="pull-left">
-                                                <img src="{{ asset($admin_source . '/dist/img/user3-128x128.jpg') }}" class="img-circle" alt="User Image">
+                                                <img src="{{ asset($admin_source . '/dist/img/user3-128x128.jpg') }}"
+                                                     class="img-circle" alt="User Image">
                                             </div>
                                             <h4>
                                                 Sales Department
@@ -112,7 +118,8 @@
                                     <li>
                                         <a href="#">
                                             <div class="pull-left">
-                                                <img src="{{ asset($admin_source . '/dist/img/user4-128x128.jpg') }}" class="img-circle" alt="User Image">
+                                                <img src="{{ asset($admin_source . '/dist/img/user4-128x128.jpg') }}"
+                                                     class="img-circle" alt="User Image">
                                             </div>
                                             <h4>
                                                 Reviewers
@@ -129,12 +136,14 @@
                     <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="{{ asset($admin_source . '/dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image">{{ Auth::user()->name }}</span>
+                            <img src="{{ asset($admin_source . '/dist/img/user2-160x160.jpg') }}" class="user-image"
+                                 alt="User Image">{{ Auth::user()->name }}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
-                                <img src="{{ asset($admin_source . '/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
+                                <img src="{{ asset($admin_source . '/dist/img/user2-160x160.jpg') }}" class="img-circle"
+                                     alt="User Image">
 
                                 <p>
                                     {{ Auth::user()->name }}
@@ -144,7 +153,8 @@
                             <!-- Menu Footer-->
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a href="{{ route('admin.users.edit', Auth::id()) }}" class="btn btn-default btn-flat">Профиль</a>
+                                    <a href="{{ route('admin.users.edit', Auth::id()) }}"
+                                       class="btn btn-default btn-flat">Профиль</a>
                                 </div>
                                 <div class="pull-right">
                                     <a href="{{ route('admin.logout') }}" class="btn btn-default btn-flat">Выход</a>
@@ -164,7 +174,8 @@
             <!-- Sidebar user panel -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="{{ asset($admin_source . '/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
+                    <img src="{{ asset($admin_source . '/dist/img/user2-160x160.jpg') }}" class="img-circle"
+                         alt="User Image">
                 </div>
                 <div class="pull-left info">
                     <p>{{ Auth::user()->name }}</p>
@@ -187,7 +198,8 @@
                 <li class="header">Меню</li>
                 <!-- Optionally, you can add icons to the links -->
                 <li><a href="{{ route('admin.index') }}"><i class="fa fa-home"></i> <span>Главная</span></a></li>
-                <li><a href="{{ route('admin.orders.index') }}"><i class="fa fa-shopping-cart"></i> <span>Заказы</span></a></li>
+                <li><a href="{{ route('admin.orders.index') }}"><i class="fa fa-shopping-cart"></i> <span>Заказы</span></a>
+                </li>
                 <li class="treeview">
                     <a href="#"><i class="fa fa-navicon"></i> <span>Категории</span>
                         <span class="pull-right-container">
@@ -210,7 +222,8 @@
                         <li><a href="{{ route('admin.products.create') }}">Добавить товар</a></li>
                     </ul>
                 </li>
-                <li><a href="{{ route('admin.cache.index') }}"><i class="fa fa-database"></i> <span>Кэширование</span></a></li>
+                <li><a href="{{ route('admin.cache.index') }}"><i class="fa fa-database"></i>
+                        <span>Кэширование</span></a></li>
                 <li class="treeview">
                     <a href="#"><i class="fa fa-users"></i> <span>Пользователи</span>
                         <span class="pull-right-container">
@@ -222,26 +235,13 @@
                         <li><a href="{{ route('admin.users.create') }}">Добавить пользователя</a></li>
                     </ul>
                 </li>
-                <li class="treeview">
-                    <a href="#"><i class="fa fa-usd"></i> <span>Валюты</span>
-                        <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="{{ route('admin.currencies.index') }}">Список валют</a></li>
-                        <li><a href="{{ route('admin.currencies.create') }}">Добавить валюту</a></li>
-                    </ul>
-                </li>
-
 
                 <li>
-                    <a href="{{ route('admin.chats.index') }}"><i class="fa fa-envelope"></i> <span>Тех. поддержка</span>
-                        <small class="label pull-right bg-green">16</small>
+                    <a href="{{ route('admin.chats.index') }}"><i class="fa fa-envelope"></i>
+                        <span>Тех. поддержка</span>
+                        <small class="label pull-right bg-green" id="count-new-chats"></small>
                     </a>
                 </li>
-
-
             </ul>
         </section>
         <!-- /.sidebar -->
@@ -250,14 +250,14 @@
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         @if($errors->any())
-        <div class="alert alert-danger">
-            {{ $errors->first() }}
-        </div>
+            <div class="alert alert-danger">
+                {{ $errors->first() }}
+            </div>
         @endif
         @if(session()->has('success'))
-        <div class="alert alert-success">
-            {{ session()->pull('success') }}
-        </div>
+            <div class="alert alert-success">
+                {{ session()->pull('success') }}
+            </div>
         @endif
 
         @yield('content')
@@ -287,6 +287,38 @@
         adminpath = '{{ route('admin.index') }}',
         adminName = '{{ Auth::user()->name }}',
         adminId = '{{ Auth::id() }}';
+</script>
+<script src="{{ asset('js/app.js') }}"></script>
+<script>
+
+    window.Echo.channel('main').listen('UserConnected', function (data) {
+        console.log(data);
+        var regexp = /\/chats/;
+
+        if (regexp.test(document.location.pathname)) {
+            //Если на странице chats.index
+            var table = $('.table-responsive');
+
+            table.removeClass('hidden');
+
+            var html = "<tr style='cursor: pointer' data-hash='" + data.hash + "'>";
+            html += "<td>" + data.user_name + "</td>";
+            html += "<td>" + (new Date()) + "</td><td>";
+            html += "<span class='label label-success'>Новое</span></td>";
+            html += "<td>" + data.message + "</td>";
+
+            table.find('tbody').append(html);
+        }
+
+        if ($('#count-new-chats').html()) {
+            $('#count-new-chats').html(Number.parseInt($('#count-new-chats').html()) + 1);
+        } else {
+            $('#count-new-chats').html(1);
+        }
+
+        var audio = new Audio('{{ asset('storage/audio/Sound.mp3') }}');
+        audio.play();
+    });
 </script>
 
 <!-- jQuery 3 -->

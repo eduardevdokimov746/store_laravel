@@ -10,7 +10,11 @@
         userEmail = '{{ Auth::user()->email->email }}';
     @endif
 
+    var adminpath = '{{ route('admin.index') }}';
+    var adminName = '{{ Auth::user()->name }}';
+
     var csrftoken = $('meta[name=_token]').attr('content');
+
 
     $.ajaxSetup({
         headers: {
@@ -18,6 +22,7 @@
         }
     });
 </script>
+
 <script src="{{ asset('js/bootstrap.js') }}"></script>
 <script src="{{ asset('js/validator.js') }}"></script>
 <script defer src="{{ asset('js/jquery.flexslider.js') }}"></script>

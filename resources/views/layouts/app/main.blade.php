@@ -10,6 +10,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script src="{{ asset('js/app.js') }}"></script>
     <link rel="shortcut icon" href="{{ asset('storage/images/favicon1.png') }}" type='image/png'/>
     <title>{{ config('app.name') }}</title>
     <script type="application/x-javascript">
@@ -43,6 +44,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 </head>
 <body>
 <!-- header -->
+<div id="app">
 <div class="header">
     <div class="w3ls-header"><!--header-one-->
         <div class="w3ls-header-left">
@@ -222,5 +224,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     </div>
 </div>
 @include('includes.scripts')
+</div>
 </body>
 </html>
