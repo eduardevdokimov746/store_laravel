@@ -6,12 +6,20 @@ function setVar(varName, varValue)
 }
 
 $('.widget-chat button').click(function () {
+
+    if (!userAuth) {
+        alertNotice('Необходимо авторизоваться!');
+        return;
+    }
+
     if (window.isConnected) {
         Echo.private('chat.' + window.chat_hash).listen('MessageChat', function (data) {
 
             if (data.user == 'admin') {
                 $('.notice-write').remove();
                 addMsg(data.message, data.time, 'yourMsg');
+                var audio = new Audio(host + '/storage/audio/Sound_msg.mp3');
+                audio.play();
             }
 
         }).listenForWhisper('writing', function () {
@@ -50,11 +58,13 @@ function startSocket(hash)
     setVar('chat_hash', hash);
     setVar('isConnected', true);
 
-    Echo.private('chat.' + hash).listen('MessageChat', function (data) {
+    window.Echo.private('chat.' + hash).listen('MessageChat', function (data) {
 
         if (data.user == 'admin') {
             $('.notice-write').remove();
             addMsg(data.message, data.time, 'yourMsg');
+            var audio = new Audio(host + '/storage/audio/Sound_msg.mp3');
+            audio.play();
         }
 
     }).listenForWhisper('writing', function () {
@@ -88,6 +98,7 @@ $('.widget-chat-modal button[type=submit]').click(function (e) {
         url: host + '/chats/connected-user',
         data: {'message': msg, 'name': name},
         success: function (hash) {
+            console.log(hash);
             $('.widget-chat-modal .body form[data-toggle=validator]').addClass('hidden');
             $('.widget-chat-modal .body .block-content-msgs').removeClass('hidden');
             $('.widget-chat-modal .field-msg').removeClass('hidden');

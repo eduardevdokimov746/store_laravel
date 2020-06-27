@@ -150,6 +150,9 @@ function startSocket(hash) {
         if (data.user == 'client') {
             $('#block-chat-user .chat .notice-write').remove();
             addMsgAdmin(data.message, data.time, 'yourMsg');
+
+            var audio = new Audio(host + '/storage/audio/Sound_msg.mp3');
+            audio.play();
         }
     })
         .listenForWhisper('writing', (e) => {
@@ -165,6 +168,8 @@ function startSocket(hash) {
 
         }).listenForWhisper('connected', function () {
 
+        var audio = new Audio(host + '/storage/audio/Sound_connection.mp3');
+        audio.play();
         addMsgAdmin('Клиент подключен к чату!', '', 'info');
 
     }).listenForWhisper('disconnect', function () {
@@ -173,6 +178,9 @@ function startSocket(hash) {
 
     setTimeout(function () {
         Echo.private('chat.' + hash).whisper('connected', {});
+        $('#field-msg').removeAttr('disabled');
+        $('#send-new-msg-admin-panel').removeAttr('disabled');
+        addMsgAdmin('Консультант подключен к чату!', '', 'info');
     }, 500);
 }
 
@@ -198,6 +206,18 @@ $('#block-chat-user button[id=connect]').click(function () {
     setVar('chat_hash', hash);
 
     startSocket(hash);
+
+
+    $.post({
+        url: host + '/chats/connectedAdmin',
+        data: {hash: hash},
+        success: function (data) {
+            console.log(data);
+        },
+        error: function (e) {
+            console.log(e);
+        }
+    });
 });
 
 $('#block-chat-user button[id=disconnect]').click(function () {
@@ -210,6 +230,9 @@ $('#block-chat-user button[id=disconnect]').click(function () {
 
     Echo.private('chat.' + window.chat_hash).whisper('disconnect', {});
     Echo.leave('chat.' + window.chat_hash);
+
+    $('#field-msg').attr('disabled', 'disabled');
+    $('#send-new-msg-admin-panel').attr('disabled', 'disabled');
 });
 
 $('#block-chat-user .box-footer #field-msg').keyup(function (e) {

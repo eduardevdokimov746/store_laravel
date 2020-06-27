@@ -32,11 +32,6 @@ class Chat
         $this->provider->newMessage($file_path, $data['user_name'], $data['message']);
     }
 
-    public function push($user_name, $message)
-    {
-
-    }
-
     public function createChat($user_name, $message) : string
     {
         $hash = $this->createNameFile();
@@ -69,7 +64,7 @@ class Chat
         if ($new_chats->isNotEmpty()) {
             $result_new_chats = $new_chats->mapWithKeys(function ($item) {
                 return [$this->getHash($item) => $this->createDataForList($item)];
-            });
+            })->sortByDesc('created_at');
         }
 
         $admin_chats = collect($this->provider->getForAdmin($admin_id));
@@ -77,7 +72,7 @@ class Chat
         if ($admin_chats->isNotEmpty()) {
             $result_admin_chats = $admin_chats->mapWithKeys(function ($item) {
                 return [$this->getHash($item) => $this->createDataForList($item)];
-            });
+            })->sortByDesc('created_at');
         }
 
         return $result_new_chats->merge($result_admin_chats);
@@ -130,7 +125,7 @@ class Chat
         return $chat;
     }
 
-    protected function getTypeChat($hash) : int
+    public function getTypeChat($hash) : int
     {
         if ($this->provider->isNew($hash)) {
             return 1;
@@ -149,5 +144,29 @@ class Chat
         $user = $array_message_data['user_name'];
 
         return ($user == 'admin') ? true : false;
+    }
+
+    public function getCountNew()
+    {
+        if ($files = $this->provider->getNew()) {
+            return count($files);
+        }
+
+        return null;
+    }
+
+    public function connectToAdmin($admin_id, $hash)
+    {
+        if ($this->provider->moveNewChat($admin_id, $hash)) {
+            $this->addToDb($admin_id, $hash);
+        }
+    }
+
+    protected function addToDb($admin_id, $hash)
+    {
+        Model::create([
+           'admin_id' => $admin_id,
+            'hash' => $hash
+        ]);
     }
 }

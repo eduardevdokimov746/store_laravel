@@ -7,12 +7,16 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <script src="{{ asset('js/app.js') }}"></script>
     <link rel="shortcut icon" href="{{ asset('storage/images/favicon1.png') }}" type='image/png'/>
     <title>{{ config('app.name') }}</title>
+
     <script type="application/x-javascript">
         addEventListener("load", function () {
             setTimeout(hideURLbar, 0);
@@ -45,14 +49,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <body>
 <!-- header -->
 <div id="app">
-<div class="header">
+    <div class="header">
     <div class="w3ls-header"><!--header-one-->
         <div class="w3ls-header-left">
             <p><a>Мы заботимся о вас и ваших покупках</a></p>
         </div>
         <div class="w3ls-header-right">
             <ul>
-                <li class="dropdown head-dpdn">
+                <li class="dropdown head-dpdn" id="left-dropdowns">
                     <!-- У не авторизованного пользователя "Мой аккаунт", авторизованного - Имя Фамилия -->
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-user" aria-hidden="true"></i>

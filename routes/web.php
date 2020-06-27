@@ -71,7 +71,7 @@ Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function () {
 Route::get('chats/connected-user', 'Admin\ChatController@connectedUser');
 Route::get('chats', 'Admin\ChatController@index')->name('admin.chats.index');
 Route::post('chats/message', 'Admin\ChatController@message');
-
+Route::post('chats/connectedAdmin', 'Admin\ChatController@connectedAdmin');
 //Chat
 
 

@@ -5,13 +5,15 @@
     var userAuth = '{!! Auth::check() !!}';
     var userName = '';
     var userEmail = '';
+    var adminName = '';
+
     @auth
         userName = '{{ Auth::user()->name }}';
         userEmail = '{{ Auth::user()->email->email }}';
+        adminName = '{{ Auth::user()->name }}';
     @endif
 
     var adminpath = '{{ route('admin.index') }}';
-    var adminName = '{{ Auth::user()->name }}';
 
     var csrftoken = $('meta[name=_token]').attr('content');
 
@@ -24,6 +26,7 @@
 </script>
 
 <script src="{{ asset('js/bootstrap.js') }}"></script>
+
 <script src="{{ asset('js/validator.js') }}"></script>
 <script defer src="{{ asset('js/jquery.flexslider.js') }}"></script>
 <script>

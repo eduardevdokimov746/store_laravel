@@ -47,6 +47,11 @@ class ChatProvider
         return $this->path_new_chats . '/' . $hash . self::FILE_EXT;
     }
 
+    public function createPathConnectedChat($admin_id, $hash)
+    {
+        return $this->path_admin_chats . '/' . $admin_id . '/' . $hash . self::FILE_EXT;
+    }
+
     public function getPathConnectedChat($hash)
     {
         foreach ($this->getConnectedFilesPath() as $file_path) {
@@ -191,5 +196,13 @@ class ChatProvider
         }
 
         return null;
+    }
+
+    public function moveNewChat($admin_id, $hash)
+    {
+        $file_old_path = $this->getPathNewChats($hash);
+        $file_new_path = $this->createPathConnectedChat($admin_id, $hash);
+
+        return $this->getStorage()->move($file_old_path, $file_new_path);
     }
 }

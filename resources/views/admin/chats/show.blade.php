@@ -33,9 +33,9 @@
 
             <div class="box-footer">
                 <div class="input-group">
-                    <input class="form-control" id="field-msg" placeholder="Ввести сообщение...">
+                    <input class="form-control" id="field-msg" placeholder="Ввести сообщение..." disabled>
                     <div class="input-group-btn">
-                        <button type="button" id="send-new-msg-admin-panel" class="btn btn-success"><i class="fa fa-plus"></i></button>
+                        <button type="button" id="send-new-msg-admin-panel" class="btn btn-success" disabled><i class="fa fa-plus"></i></button>
                     </div>
                 </div>
             </div>

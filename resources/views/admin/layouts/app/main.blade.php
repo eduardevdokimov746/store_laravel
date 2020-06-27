@@ -239,7 +239,7 @@
                 <li>
                     <a href="{{ route('admin.chats.index') }}"><i class="fa fa-envelope"></i>
                         <span>Тех. поддержка</span>
-                        <small class="label pull-right bg-green" id="count-new-chats"></small>
+                        <small class="label pull-right bg-green" id="count-new-chats">{{ $count_new_chats }}</small>
                     </a>
                 </li>
             </ul>
@@ -300,14 +300,16 @@
             var table = $('.table-responsive');
 
             table.removeClass('hidden');
+            var date = new Date();
+            var string_date = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
 
             var html = "<tr style='cursor: pointer' data-hash='" + data.hash + "'>";
             html += "<td>" + data.user_name + "</td>";
-            html += "<td>" + (new Date()) + "</td><td>";
+            html += "<td>" + string_date + "</td><td>";
             html += "<span class='label label-success'>Новое</span></td>";
             html += "<td>" + data.message + "</td>";
 
-            table.find('tbody').append(html);
+            table.find('tbody').prepend(html);
         }
 
         if ($('#count-new-chats').html()) {
@@ -319,6 +321,7 @@
         var audio = new Audio('{{ asset('storage/audio/Sound.mp3') }}');
         audio.play();
     });
+
 </script>
 
 <!-- jQuery 3 -->

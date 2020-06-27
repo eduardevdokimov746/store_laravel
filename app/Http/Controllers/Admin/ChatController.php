@@ -12,6 +12,11 @@ use App\Models\Chat as ModelChat;
 
 class ChatController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('admin.auth')->except(['connectedUser', 'message']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -68,5 +73,16 @@ class ChatController extends Controller
         $time = Carbon::now('Europe/Moscow')->format('H:i');
 
         event(new MessageChat($request->get('hash'), $user_name, $message, $time, $request->get('user')));
+    }
+
+    public function connectedAdmin()
+    {
+        $hash = \request()->get('hash');
+
+        $chat = app(Chat::class);
+
+        if ($chat->getTypeChat($hash) == 1) {
+            $chat->connectToAdmin(\Auth::id(), $hash);
+        }
     }
 }

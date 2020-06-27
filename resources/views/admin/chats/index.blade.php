@@ -34,7 +34,11 @@
                             <td>{{ $chat['user_name'] }}</td>
                             <td>{{ $chat['created_at'] }}</td>
                             <td>
-                                <span class="label label-success">{{ $chat['status'] ? 'Новое' : 'Старое' }}</span>
+                                @if($chat['status'])
+                                    <span class="label label-success">Новый</span>
+                                @else
+                                    <span class="label label-default">Старый</span>
+                                @endif
                             </td>
                             <td>{{ $chat['first_message'] }}</td>
                         </tr>

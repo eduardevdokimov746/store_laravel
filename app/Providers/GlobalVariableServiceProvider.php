@@ -24,6 +24,13 @@ class GlobalVariableServiceProvider extends ServiceProvider
     public function boot()
     {
         \View::share('symbolCurrency', \Currency::getSymbol());
-        \View::share('admin_source', 'adminLTE');
+
+        \View::composer('admin.*', function ($view) {
+            $view->with('admin_source', 'adminLTE');
+        });
+
+        \View::composer('admin.*', function ($view) {
+            $view->with('count_new_chats', app(\App\Services\Chat::class)->getCountNew());
+        });
     }
 }
