@@ -1,79 +1,50 @@
-<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
+# Интернет - магазин на фрейморке PHP Laravel
+## Описание
+Проект разрабатывался с целью обучения. В нем используется готовый шаблон сайта (верстка написана не мной, только изменена под мои нужды). В проекте есть панель администратора. А также чат в реальном времени, написанный с использованием Laravel echo и pusher-js. Бизнес логика основана на моем предыдущем проекте, а именно интернет магазин, только на чистом PHP.
+[Ссылка на предыдущий проект](<https://github.com/eduardEvdokimov/store>)
+## Установка
+### Загрузка проекта на машину
+1. Перейти в каталог, где будет храниться проект.
+2. Если **не** установлен git. Загрузить zip архив со страницы репозитория. И скопировать содержимое в папку.
+3. Если **установлен** git. Выполнить следующую команду:
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+        git clone "https://github.com/eduardEvdokimov/store_laravel.git"
+    
+### Подготовка к запуску
+##### Добавление изображений товаров
+Я не стал добавлять в данный репозиторий все изображения, так как они много весят. Поэтому необходимо их скачать из предыдущего проекта:
+[Ссылка на предыдущий проект](<https://github.com/eduardEvdokimov/store>)
+Проще всего будет скачать проект в zip архиве, и после загрузки вырезать все содержимое папки: *store/www/images* в папку этого проекта *store_laravel/storage/app/public/images*.
+### Подгрузка движка фреймворка
+Для загрузки всех файлов фрейморка необходим composer. Если нет, устанавливаем.
+[Ссылка на загрузку composer](https://getcomposer.org/Composer-Setup.exe)
+Из командной строки, находясь в папке проекта выполняем следующую команду:
 
-## About Laravel
+    composer install
+    
+##### Установка конфигурации
+Необходимо создать файл конфигурации с именемем *.env* в корне проекта. Потом из корня проекта открыть файл *.env.example*, скопировать содержимое в созданный файл и написать свои значения ключей для ключей.
+Далее выполнить команду для генерации ключа приложения:
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+    php artisan key:generate
+    
+Также для правильной работы хранилища необходимо сделать ссылку на католог *storage/app/public* в *public/storage*. Для этого выполняем следующую команду:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+    php artisan storage:link
+    
+##### Подключение к базе данных
+Перед тем как подключиться к базе данных необходимо указать в файле конфигурации *.env* настройки подключения к БД. После этого необходимо выполнеить следующую команду:
+    
+    php artisan migrate --seed
+    
+#### Запуск процессов для работы чата и очередей отправки эл. почты
+Для запуска процесса websockets необходимо ввести команду:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+    php artisan websockets:serve --port=6001
+    
+Для запуска воркера очередей для отправки эл. почты введите команду:
+    php artisan queue:work --queue=emails --sleep=3 --tries=3 --timeout=60
+    
+В конце рекомендую выполнить сброс кеша конфигурации командой:
 
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
-- [Appoly](https://www.appoly.co.uk)
-- [OP.GG](https://op.gg)
-- [云软科技](http://www.yunruan.ltd/)
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+    php artisan config:cache
