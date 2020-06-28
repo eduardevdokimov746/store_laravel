@@ -43,6 +43,7 @@
     php artisan websockets:serve --port=6001
     
 Для запуска воркера очередей для отправки эл. почты введите команду:
+
     php artisan queue:work --queue=emails --sleep=3 --tries=3 --timeout=60
     
 В конце рекомендую выполнить сброс кеша конфигурации командой:
