@@ -23,6 +23,7 @@ class GlobalVariableServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        //Закомментировать для работы artisan при развертывании проекта
         \View::share('symbolCurrency', \Currency::getSymbol());
 
         \View::composer('admin.*', function ($view) {
